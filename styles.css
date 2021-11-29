@@ -1,12 +1,13 @@
 /*------COLORS------*/
 :root{
-    --primary: #901C1C ;
+    --primary-red: #901C1C ;
     --secondary: #D3573C ;
+    --secondary-beige: #DB8876 ;
     --tertiary: #525252 ;
     --quaternary: #FAFAFA ;
 }
 .primary{
-    color: var(--primary);
+    color: var(--primary-red);
 }
 .secondary{
     color: var(--secondary);
@@ -17,11 +18,21 @@
 .bg-quaternary{
     background-color: var(--quaternary);
 }
+.bg-secondary-beige{
+    background-color: var(--secondary-beige);
+}
+
 
 /*------GENERAL------*/
+:root{
+    font-size: 1.2rem;
+}
 a{
     text-decoration: none;
     color: black;
+}
+h1{
+    font-size: 3rem;
 }
 h2{
     font-size: 2.5rem;
@@ -30,7 +41,12 @@ h2{
 p{
     margin: 0;
 }
-
+img{
+    margin: 0px;
+}
+*{
+    margin: 0;
+}
 /*------GENERAL-CLASSES------*/
 .w-fit{
     width: fit-content;
@@ -38,11 +54,15 @@ p{
 .h-fit{
     height: fit-content;
 }
+.bgr-primary{
+    background-color: var(--primary-red);
+}
+.white{
+    color: white;
+}
 
 /*------CUSTOM BOOTSTRAP------*/
-.btn-primary{
-    background-color: var(--primary);
-}
+
 .mx-auto{
     display: block;
     margin: auto;
@@ -68,6 +88,18 @@ p{
 .logo{
     height: 50px;
 }
+/*------SELECT-SORT------*/
+.select-sort{
+    border-radius: .5rem;
+    margin: 2rem;
+    padding: .5rem 2rem .5rem 1rem;
+}
+.select-sort p{
+    display: block;
+    width: 100px;
+    height: 200px;
+    padding: 5rem;
+}
 
 /*------PHOTOGRAPHES------*/
 .sq200{
@@ -92,12 +124,36 @@ p{
 .home-fig{
     --bs-gutter-y:3rem;
 }
+/*------TOTAL LIKES------*/
+.likes-total-container{
+    position:fixed;
+    bottom: 0;
+    width:initial;
+    justify-content: flex-end;
+}
+.likes-total{
+    position: fixed;
+    width: 350px;
+    height: 50px;
+    border-radius: .5rem .5rem 0 0;
+    align-content: center;
+    bottom: 0;
 
-
+}
+.likes-total div{
+    align-items: center;
+    justify-content: center;
+}
+.likes-total div p{
+    font-size: 1.25rem;
+    margin: 0 0rem 0rem 0rem;
+    font-weight: bold;
+}
 /*------PHOTOGRAPHER-PAGE------*/
 .personal-fig{
     width: 350px;
     height: 350px;
+    padding:0;
 }
 .personal-fig footer{
     height: 50px;
