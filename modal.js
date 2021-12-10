@@ -35,23 +35,40 @@ fetch('/Media/Data/photographers.json')
         }
     }
 
-    function addphoto(htmlID,imgID){
-        document.getElementById("photo-"+htmlID).src = photographerName.folder + mimiKeelPhotos[imgID].image ;
-        document.getElementById("photo-"+htmlID+"-title").innerHTML = mimiKeelPhotos[imgID].title ;
-        document.getElementById("photo-"+htmlID+"-likes").innerHTML = mimiKeelPhotos[imgID].likes ;
+
+
+    function addphoto(imgID){
+        //IF THERE IS AN IMAGE CHANGE THE SOURCE AND TITLE
+        if(mimiKeelPhotos[imgID].image != undefined) {
+            document.getElementById("photo-"+imgID).src = photographerName.folder + mimiKeelPhotos[imgID].image ;
+            document.getElementById("photo-"+imgID+"-title").innerHTML = mimiKeelPhotos[imgID].title ;
+        }
+        //IF THERE IS NO IMAGE ADD A VIDEO REMOVE THE IMAGE CHANGES THE SOURCE
+        if(mimiKeelPhotos[imgID].image == undefined){
+            console.log(mimiKeelPhotos)
+            console.log(document.getElementById("photo-"+imgID))
+            if(document.querySelector("img#photo-"+ imgID) != undefined){
+                document.getElementById("photo-"+imgID).parentElement.insertAdjacentHTML("afterbegin","<video src=\""+ photographerName.folder + mimiKeelPhotos[imgID].video + "\"id=\"" + "photo-" + imgID + "\"class=\"img-fluid\">")
+                document.querySelector("img#photo-"+ imgID).remove()
+            }
+
+            //document.getElementById("photo-"+imgID).remove()
+        }
+        //ADDS THE LIKES
+
+
+        document.getElementById("photo-"+imgID+"-likes").innerHTML = mimiKeelPhotos[imgID].likes + " " ;
     }
 
     function Add(){
-        addphoto(0,0);
-        addphoto(1,1);
-        addphoto(2,2);
-        addphoto(3,3);
-        addphoto(4,4);
-        addphoto(5,5);
-        addphoto(6,6);
-        addphoto(7,7);
-        addphoto(8,8);
-        addphoto(9,9);
+        for(var i=0 ; i< 10; i++){
+            if(mimiKeelPhotos[i] != undefined){
+                addphoto(i);
+            }
+            if(mimiKeelPhotos[i] == undefined){
+                document.getElementById("photo-"+i).parentElement.style.display = "none"
+            }
+        }
     }
 
     // SORTS PHOTOS BY LIKES
@@ -60,12 +77,14 @@ fetch('/Media/Data/photographers.json')
             return a.likes - b.likes;
         });
     }
+
     // SORTS PHOTOS BY DATE
     function SortByDate(){
         mimiKeelPhotos.sort((a,b) =>{
             return a.date.replaceAll('-','') - b.date.replaceAll('-','');
         });
     }
+
     // SORTS PHOTOS BY TITLE
     function SortByTitle(){
         mimiKeelPhotos.sort((a, b) => {
@@ -78,41 +97,52 @@ fetch('/Media/Data/photographers.json')
             return 0;
         });
     }
+
     // PHOTOS ARE SORTED BY LIKES BY DEFAULT
     SortByLikes()
     Add()
+
     // SORTS PHOTOS DEPENDING ON THE SELECTED OPTION
     selectSort.addEventListener('change',function(){
         if (selectSort.selectedIndex == 0){
             SortByLikes()
-            Add()
-            console.log('popularité')
         }
         if(selectSort.selectedIndex == 1){
             SortByDate()
-            Add()
-            console.log('date')
         }
         if(selectSort.selectedIndex == 2){
             SortByTitle()
-            Add()
-
         }
+        Add()
+        currentImage = 0
+        document.getElementById("image-lb").src = "#"
+
     })
 
-    //CALCULATES TOTAL LIKES
-    mimiKeelPhotos.forEach(
-        item => totalLikes = totalLikes + item.likes);
+    function CalcTotalLikes(i){
+        //CALCULATES TOTAL LIKES
+        totalLikes = 0
+        mimiKeelPhotos.forEach(
+            item => totalLikes = totalLikes + item.likes);
+        document.getElementById("likes-total").innerHTML = totalLikes + i;
+    }
+    CalcTotalLikes(0)
 
     document.getElementById("photographer-name").innerHTML=photographerName.name;
+
+    // ADDS THE PHOTOGRAPHERS NAME
     document.getElementById("city-country").innerHTML=photographerName.city +", "+ photographerName.country ;
+
+    // ADDS THE PHOTOGRAPHERS SLOGAN
     document.getElementById("tagline").innerHTML= photographerName.tagline ;
+
+    // ADDS THE PHOTOGRAPHERS PORTRAIT
     document.getElementById("portrait").src = "/Media/Sample Photos/Photographers ID Photos/" + photographerName.portrait ;
-    document.getElementById("likes-total").innerHTML = totalLikes;
+
+    // ADDS THE PHOTOGRAPHERS PRICE
     document.getElementById("price").innerHTML = photographerName.price+"€ / jour";
 
-    //GETS CONTACT NAME
-
+    //DISPLAYS CONTACT INFO ON SUBMIT
     document.getElementById("contactForm").addEventListener("submit",function(e){
         let contactPrenom = document.getElementById("fname").value
         let contactNomFamille = document.getElementById("lname").value
@@ -124,9 +154,101 @@ fetch('/Media/Data/photographers.json')
         e.preventDefault()
     })
 
+    function bla(i){
+        document.getElementById("photo-"+ i +"-button-like").addEventListener('click',function(e){
+            let likesNumber = mimiKeelPhotos[i].likes
+            let likesElement = document.getElementById("photo-"+i+"-likes")
+            //TOGGLES HEART
+            document.getElementById("photo-"+ i +"-icon-like").classList.toggle("fas")
+            //TOGGLES LIKES
+            if(likesElement.innerHTML ==  likesNumber){
+                likesElement.innerHTML =  likesNumber+1
+                CalcTotalLikes(1)
+            }else{
+                likesElement.innerHTML = likesNumber
+                CalcTotalLikes(0)
+            }
+        })
+    }
+    for (var i = 0; i<10 ; i++){
+        bla(i)
+    }
 
 
+    //LIGHTBOX
+    function openMedia(i){
+        if(mimiKeelPhotos[i].image != undefined){//IF CLIC ON IMAGE
+            if(document.querySelector("video#img-lb") != undefined){//IF VIDEO ELEMENT EXISTS
+                document.querySelector("video#img-lb").remove()//REMOVE VIDEO ELEMENT
+            }
+            if(document.querySelector("img#img-lb") == undefined){ //IF IMAGE ELEMENT NOT EXISTS ; ADDS IT AND SETS THE SOURCE
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend","<img id=\"img-lb\" class=\"col-10\" src=\""+photographerName.folder + mimiKeelPhotos[i].image+"\">")
+            }
+            else{   //IF IMAGE ELEMENT EXISTS ; SET ITS SOURCE
+                document.getElementById("img-lb").src =photographerName.folder + mimiKeelPhotos[i].image
+            }
+        }
+        else{//IF CLIC ON VIDEO
+            if(document.querySelector("img#img-lb") != undefined){//IF IMAGE ELEMENT EXISTS
+                document.querySelector("img#img-lb").remove()//REMOVE THE ELEMENT
+            }
+            if(document.querySelector("video#img-lb") == undefined){ //IF VIDEO ELEMENT IS NOT ADDED
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend","<video id=\"img-lb\" class=\"col-10\" src=\""+photographerName.folder + mimiKeelPhotos[i].video+"\" autoplay controls></video>")
+            }
+            else{
+                document.getElementById("img-lb").src =photographerName.folder + mimiKeelPhotos[i].video
+            }
+        }
+        document.querySelector(".modal-footer p").innerHTML = mimiKeelPhotos[i].title
+        if(mimiKeelPhotos[i].title == undefined){
+            document.querySelector(".modal-footer p").innerHTML = ""
+        }
+    }
 
+    const modalLb = new bootstrap.Modal(document.getElementById('modal-lb'), {
+        keyboard: false
+    })
+
+    for(var i = 0; i<10; i++){
+        document.getElementById("photo-"+i).addEventListener("click",function(e){
+            var mediaToOpen = e.path[0].id.substring(6,7)
+            modalLb.toggle()
+            openMedia(mediaToOpen)
+            document.getElementById("button-left-lb").addEventListener("click",function(){
+                mediaToOpen--
+                if(mediaToOpen < 0){
+                    mediaToOpen = 9
+                }
+                openMedia(mediaToOpen)
+            })
+            document.getElementById("button-right-lb").addEventListener("click",function(){
+                mediaToOpen++
+                if(mediaToOpen > 9){
+                    mediaToOpen = 0
+                }
+                openMedia(mediaToOpen)
+            })
+            document.body.addEventListener("keydown",function(event){
+                if(event.key == "ArrowLeft"){
+                    mediaToOpen--
+                    if(mediaToOpen < 0){
+                        mediaToOpen = 9
+                    }
+                    openMedia(mediaToOpen)
+                }
+                if(event.key == "ArrowRight"){
+                    mediaToOpen++
+                    if(mediaToOpen > 9){
+                        mediaToOpen = 0
+                    }
+                    openMedia(mediaToOpen)
+                }
+            })
+        })
+    }
+    document.getElementById("button-close-lb").addEventListener("click",function(){
+        modalLb.toggle()
+    })
 })
 .catch(function () {
     this.dataError = true;

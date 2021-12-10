@@ -7,6 +7,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="styles.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://kit.fontawesome.com/bd29380e3d.js" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
@@ -22,7 +23,7 @@
                 </nav>
             </header>
            <main>
-               <section class="row row-photographer-info bg-quaternary">
+                <section class="row row-photographer-info bg-quaternary" id="">
                     <div class="col-3">
                         <div class="w-fit mx-auto">
                             <h1 id="photographer-name" class="secondary"></h1>
@@ -30,6 +31,7 @@
                             <p id="tagline"></p>
                         </div>
                     </div>
+                    <!--Contact Modal-->
                     <div class="col-6">
                         <button type="button" class="btn btn-primary bgr-primary btn-lg mx-auto" data-bs-toggle="modal" data-bs-target="#contactModal">
                             Contactez-moi
@@ -71,28 +73,40 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--Lightbox -->
+                    <div class="modal fade" id="modal-lb">
+                        <div class="modal-dialog modal-xl" id="modal-lb-dialog">
+                        <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header p-0">
+                                    <button type="button" id="button-close-lb" class="close primary" data-dismiss="modal">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-body row" >
+                                    <button id="button-left-lb" class="col-1 primary">
+                                        <i class="fas fa-angle-left"></i>
+                                    </button>
+                                    <button id="button-right-lb" class="col-1 primary">
+                                        <i class="fas fa-angle-right"></i>
+                                    </button>
+                                </div>
+                                <div class="modal-footer">
+                                    <p></p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="col-3">
                         <img src="#" id="portrait" class="rounded-circle sq200 mx-auto" alt="">
                     </div>
                 </section>
 
-                <!-- Total Likes -->
-                <div class="row justify-content-end">
-                    <div class="likes-total row bg-secondary-beige">
-                        <div class="col-6 d-flex">
-                            <p id="likes-total"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="black" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
-                        </div>
-                        <div class="col-6">
-                            <p id="price"></p>
-                        </div>
-                    </div>
-                </div>
-
-
-                <section class="row justify-content-between">
+                <section class="row justify-content-between mb-4" id="gallery">
                     <!-- Trier Par -->
                     <div class="col-12">
                         <label for="">Trier par</label>
@@ -104,13 +118,18 @@
                     </div>
                    <!-- Figure 1 -->
                    <figure class="col-4 personal-fig">
-                        <img src="#" id="photo-0"  class="img-fluid" alt="">
+                        <img src="#" id="photo-0" class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-0-title" class="col-9 primary"></p>
-                            <p id="photo-0-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-0-title" class="col-10 primary"></p>
+                            <p id="photo-0-likes" class="col-1 primary p-1"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-0-button-like" class="p-0 button-like primary">
+                                    <i id="photo-0-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
+
+
+
                         </footer>
                    </figure>
 
@@ -118,11 +137,13 @@
                    <figure class="col-4 personal-fig">
                         <img src="#" id="photo-1"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-1-title" class="col-9 primary"></p>
-                            <p id="photo-1-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-1-title" class="col-10 primary"></p>
+                            <p id="photo-1-likes" class="col-1 primary p-1 "></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-1-button-like" class="p-0 button-like primary">
+                                    <i id="photo-1-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -130,11 +151,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-2"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-2-title" class="col-9 primary"></p>
-                            <p id="photo-2-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-2-title" class="col-10 primary"></p>
+                            <p id="photo-2-likes" class="col-1 primary  p-1"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-2-button-like" class="p-0 button-like primary">
+                                    <i id="photo-2-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -142,11 +165,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-3"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-3-title" class="col-9 primary"></p>
-                            <p id="photo-3-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-3-title" class="col-10 primary"></p>
+                            <p id="photo-3-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-3-button-like" class="p-0 button-like primary">
+                                    <i id="photo-3-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -154,11 +179,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-4"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-4-title" class="col-9 primary"></p>
-                            <p id="photo-4-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-4-title" class="col-10 primary"></p>
+                            <p id="photo-4-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-4-button-like" class="p-0 button-like primary">
+                                    <i id="photo-4-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -166,11 +193,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-5"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-5-title" class="col-9 primary"></p>
-                            <p id="photo-5-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-5-title" class="col-10 primary"></p>
+                            <p id="photo-5-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-5-button-like" class="p-0 button-like primary">
+                                    <i id="photo-5-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -178,11 +207,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-6"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-6-title" class="col-9 primary"></p>
-                            <p id="photo-6-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-6-title" class="col-10 primary"></p>
+                            <p id="photo-6-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-6-button-like" class="p-0 button-like primary">
+                                    <i id="photo-6-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -190,11 +221,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-7"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-7-title" class="col-9 primary"></p>
-                            <p id="photo-7-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-7-title" class="col-10 primary"></p>
+                            <p id="photo-7-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-7-button-like" class="p-0 button-like primary">
+                                    <i id="photo-7-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -202,11 +235,13 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-8"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-8-title" class="col-9 primary"></p>
-                            <p id="photo-8-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-8-title" class="col-10 primary"></p>
+                            <p id="photo-8-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-8-button-like" class="p-0 button-like primary">
+                                    <i id="photo-8-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
 
@@ -214,14 +249,30 @@
                     <figure class="col-4 personal-fig">
                         <img src="#" id="photo-9"  class="img-fluid" alt="">
                         <footer class="row h-fit">
-                            <p id="photo-9-title" class="col-9 primary"></p>
-                            <p id="photo-9-likes" class="col-1 primary"></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="var(--primary)" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                            <p id="photo-9-title" class="col-10 primary"></p>
+                            <p id="photo-9-likes" class="col-1 primary p-0"></p>
+                            <div class="col-1 p-0 ">
+                                <button id="photo-9-button-like" class="p-0 button-like primary">
+                                    <i id="photo-9-icon-like" class="far fa-heart primary"></i>
+                                </button>
+                            </div>
                         </footer>
                    </figure>
-               </section>
+                   <!-- Total Likes -->
+                    <div class="row justify-content-end">
+                        <div class="likes-total row bg-secondary-beige">
+                            <div class="col-6 d-flex">
+                                <p id="likes-total"></p>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="black" class="col-2 bi bi-heart-fill" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                                </svg>
+                            </div>
+                            <div class="col-6">
+                                <p id="price"></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
            </main>
        </div>
        <script src="modal.js"></script>

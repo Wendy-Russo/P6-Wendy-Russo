@@ -159,7 +159,7 @@ img{
     height: 50px;
     align-items: center;
 }
-.personal-fig img{
+.personal-fig img,.personal-fig video{
     width: 100%;
     height: 300px;
     border-radius: .5rem;
@@ -169,4 +169,62 @@ img{
 .row-photographer-info{
     align-items: center;
     height: 313px;
+}
+.button-like{
+    border: 0px;
+    background-color: white;
+}
+
+
+
+#modal-lb{
+    background-color: white;
+}
+#modal-lb-dialog{
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    margin: 0 auto;
+}
+.modal-content{
+    border: 0;
+    flex-direction: unset;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#modal-lb button{
+    border: none;
+    background-color: white;
+}
+.modal-header{
+    width: 90%;
+    justify-content: flex-end;
+    border: white;
+}
+.modal-body{
+    justify-content: center;
+    align-items: center;
+    height:min-content;
+}
+.modal-body button {
+    height: min-content;
+}
+.modal-footer{
+    width: 100%;
+    justify-content: center;
+    border: white;
+}
+#modal-lb i{
+    font-size: 3rem;
+}
+#img-lb{
+    height: 100%;
+    max-height: 87vh;
+    width: auto;
+    max-width: 80%;
+}
+.fa-times{
+    position: fixed;
+    top: 2rem;
+    right: 3rem;
 }
