@@ -25,28 +25,32 @@ fetch('/Media/Data/photographers.json')
 
 
     // MATCHES FILES AND PHOTOGRAPHERS
-    if(path == "/mimi.html"){
-        var photographerName = mimiKeel
+    if(path === "/mimi.html"){
+        var photographerName = mimiKeel;
     }
+
     // GETS ALL PHOTOS BY PHOTOGRAPHER
     for(var i=0 ; i<media.length; i++) {
-        if(media[i].photographerId == photographerName.id){
+        if(media[i].photographerId === photographerName.id){
             mimiKeelPhotos.push(media[i]);
         }
     }
 
+    function setDefaultLikes(){
+        for (let i = 0; i<10;i++){
+            document.getElementById("photo-"+i+"-likes").innerHTML = mimiKeelPhotos[i].likes + " " ;
+        }
+    }
 
 
-    function addphoto(imgID){
+    function addPhoto(imgID){
         //IF THERE IS AN IMAGE CHANGE THE SOURCE AND TITLE
         if(mimiKeelPhotos[imgID].image != undefined) {
             document.getElementById("photo-"+imgID).src = photographerName.folder + mimiKeelPhotos[imgID].image ;
             document.getElementById("photo-"+imgID+"-title").innerHTML = mimiKeelPhotos[imgID].title ;
         }
         //IF THERE IS NO IMAGE ADD A VIDEO REMOVE THE IMAGE CHANGES THE SOURCE
-        if(mimiKeelPhotos[imgID].image == undefined){
-            console.log(mimiKeelPhotos)
-            console.log(document.getElementById("photo-"+imgID))
+        if(mimiKeelPhotos[imgID].image === undefined){
             if(document.querySelector("img#photo-"+ imgID) != undefined){
                 document.getElementById("photo-"+imgID).parentElement.insertAdjacentHTML("afterbegin","<video src=\""+ photographerName.folder + mimiKeelPhotos[imgID].video + "\"id=\"" + "photo-" + imgID + "\"class=\"img-fluid\">")
                 document.querySelector("img#photo-"+ imgID).remove()
@@ -55,17 +59,15 @@ fetch('/Media/Data/photographers.json')
             //document.getElementById("photo-"+imgID).remove()
         }
         //ADDS THE LIKES
-
-
-        document.getElementById("photo-"+imgID+"-likes").innerHTML = mimiKeelPhotos[imgID].likes + " " ;
+        setDefaultLikes()
     }
 
     function Add(){
         for(var i=0 ; i< 10; i++){
             if(mimiKeelPhotos[i] != undefined){
-                addphoto(i);
+                addPhoto(i);
             }
-            if(mimiKeelPhotos[i] == undefined){
+            if(mimiKeelPhotos[i] === undefined){
                 document.getElementById("photo-"+i).parentElement.style.display = "none"
             }
         }
@@ -104,23 +106,24 @@ fetch('/Media/Data/photographers.json')
 
     // SORTS PHOTOS DEPENDING ON THE SELECTED OPTION
     selectSort.addEventListener('change',function(){
-        if (selectSort.selectedIndex == 0){
+        if (selectSort.selectedIndex === 0){
             SortByLikes()
         }
-        if(selectSort.selectedIndex == 1){
+        if(selectSort.selectedIndex === 1){
             SortByDate()
         }
-        if(selectSort.selectedIndex == 2){
+        if(selectSort.selectedIndex === 2){
             SortByTitle()
         }
         Add()
+        setDefaultLikes()
+        CalcTotalLikes(0)
         currentImage = 0
         document.getElementById("image-lb").src = "#"
 
     })
 
-    function CalcTotalLikes(i){
-        //CALCULATES TOTAL LIKES
+    function CalcTotalLikes(i){ //CALCULATES TOTAL LIKES
         totalLikes = 0
         mimiKeelPhotos.forEach(
             item => totalLikes = totalLikes + item.likes);
@@ -154,6 +157,7 @@ fetch('/Media/Data/photographers.json')
         e.preventDefault()
     })
 
+    //TOGGLES HEARTS AND LIKES
     function bla(i){
         document.getElementById("photo-"+ i +"-button-like").addEventListener('click',function(e){
             let likesNumber = mimiKeelPhotos[i].likes
@@ -161,7 +165,7 @@ fetch('/Media/Data/photographers.json')
             //TOGGLES HEART
             document.getElementById("photo-"+ i +"-icon-like").classList.toggle("fas")
             //TOGGLES LIKES
-            if(likesElement.innerHTML ==  likesNumber){
+            if(likesElement.innerHTML ===  likesNumber){
                 likesElement.innerHTML =  likesNumber+1
                 CalcTotalLikes(1)
             }else{
@@ -181,7 +185,7 @@ fetch('/Media/Data/photographers.json')
             if(document.querySelector("video#img-lb") != undefined){//IF VIDEO ELEMENT EXISTS
                 document.querySelector("video#img-lb").remove()//REMOVE VIDEO ELEMENT
             }
-            if(document.querySelector("img#img-lb") == undefined){ //IF IMAGE ELEMENT NOT EXISTS ; ADDS IT AND SETS THE SOURCE
+            if(document.querySelector("img#img-lb") === undefined){ //IF IMAGE ELEMENT NOT EXISTS ; ADDS IT AND SETS THE SOURCE
                 document.getElementById("button-left-lb").insertAdjacentHTML("afterend","<img id=\"img-lb\" class=\"col-10\" src=\""+photographerName.folder + mimiKeelPhotos[i].image+"\">")
             }
             else{   //IF IMAGE ELEMENT EXISTS ; SET ITS SOURCE
@@ -192,7 +196,7 @@ fetch('/Media/Data/photographers.json')
             if(document.querySelector("img#img-lb") != undefined){//IF IMAGE ELEMENT EXISTS
                 document.querySelector("img#img-lb").remove()//REMOVE THE ELEMENT
             }
-            if(document.querySelector("video#img-lb") == undefined){ //IF VIDEO ELEMENT IS NOT ADDED
+            if(document.querySelector("video#img-lb") === undefined){ //IF VIDEO ELEMENT IS NOT ADDED
                 document.getElementById("button-left-lb").insertAdjacentHTML("afterend","<video id=\"img-lb\" class=\"col-10\" src=\""+photographerName.folder + mimiKeelPhotos[i].video+"\" autoplay controls></video>")
             }
             else{
@@ -200,7 +204,7 @@ fetch('/Media/Data/photographers.json')
             }
         }
         document.querySelector(".modal-footer p").innerHTML = mimiKeelPhotos[i].title
-        if(mimiKeelPhotos[i].title == undefined){
+        if(mimiKeelPhotos[i].title === undefined){
             document.querySelector(".modal-footer p").innerHTML = ""
         }
     }
@@ -229,14 +233,14 @@ fetch('/Media/Data/photographers.json')
                 openMedia(mediaToOpen)
             })
             document.body.addEventListener("keydown",function(event){
-                if(event.key == "ArrowLeft"){
+                if(event.key === "ArrowLeft"){
                     mediaToOpen--
                     if(mediaToOpen < 0){
                         mediaToOpen = 9
                     }
                     openMedia(mediaToOpen)
                 }
-                if(event.key == "ArrowRight"){
+                if(event.key === "ArrowRight"){
                     mediaToOpen++
                     if(mediaToOpen > 9){
                         mediaToOpen = 0
