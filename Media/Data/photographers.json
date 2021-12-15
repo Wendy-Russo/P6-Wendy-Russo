@@ -8,7 +8,7 @@
 			"tagline": "Voir le beau dans le quotidien",
 			"price": 400,
 			"portrait": "MimiKeel.jpg",
-			"folder":"/Media/Sample Photos/Mimi/"
+			"folder":"../media/sample-photos/mimi/"
 		},
 		{
 			"name": "Ellie-Rose Wilkens",
@@ -18,7 +18,7 @@
 			"tagline": "Capturer des compositions complexes",
 			"price": 250,
 			"portrait": "EllieRoseWilkens.jpg",
-			"folder":"/Media/Sample Photos/Ellie Rose/"
+			"folder":"/media/sample-photos/ellie-rose/"
 		},
 		{
 			"name": "Tracy Galindo",
@@ -28,7 +28,7 @@
 			"tagline": "Photographe freelance",
 			"price": 500,
 			"portrait": "TracyGalindo.jpg",
-			"folder":"/Media/Sample Photos/Tracy/"
+			"folder":"/media/sample-photos/tracy/"
 		},
 		{
 			"name": "Nabeel Bradford",
@@ -38,7 +38,7 @@
 			"tagline": "Toujours aller de l'avant",
 			"price": 350,
 			"portrait": "NabeelBradford.jpg",
-			"folder":"/Media/Sample Photos/Nabeel/"
+			"folder":"/media/sample-photos/nabeel/"
 		},
 		{
 			"name": "Rhode Dubois",
@@ -48,7 +48,7 @@
 			"tagline": "Je crée des souvenirs",
 			"price": 275,
 			"portrait": "RhodeDubois.jpg",
-			"folder":"/Media/Sample Photos/Rhode/"
+			"folder":"/media/sample-photos/rhode/"
 		},
 		{
 			"name": "Marcel Nikolic",
@@ -58,7 +58,7 @@
 			"tagline": "Toujours à la recherche de LA photo",
 			"price": 300,
 			"portrait": "MarcelNikolic.jpg",
-			"folder":"/Media/Sample Photos/Marcel/"
+			"folder":"/media/sample-photos/marcel/"
 		}
 	],
 	"media": [
