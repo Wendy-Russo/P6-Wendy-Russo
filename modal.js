@@ -32,7 +32,7 @@ fetch('/media/data/photographers.json')
 
         // GETS ALL PHOTOS BY PHOTOGRAPHER
         for (var i = 0; i < media.length; i++) {
-            if (media[i].photographerId == thisPhotographer.id) {
+            if (media[i].photographerId === thisPhotographer.id) {
                 thisPhotographerMedia.push(media[i]);
             }
         }
