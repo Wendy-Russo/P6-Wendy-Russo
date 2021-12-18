@@ -1,4 +1,4 @@
-/*------COLORS------*/
+/*  ------COLORS------*/
 
 
 /*
@@ -30,7 +30,7 @@
 }
 
 
-/*------GENERAL------*/
+/* ------GENERAL------*/
 
 :root {
     font-size: 1.2rem;
@@ -164,7 +164,7 @@ img {
 }
 
 
-/*------TOTAL LIKES------*/
+/* ------TOTAL LIKES------*/
 
 .likes-total-container {
     position: fixed;
@@ -177,7 +177,7 @@ img {
     position: fixed;
     width: 350px;
     height: 50px;
-    border-radius: .5rem .5rem 0 0;
+    border-radius: 0.5rem 0.5rem 0rem 0rem;
     align-content: center;
     bottom: 0;
 }
@@ -189,12 +189,12 @@ img {
 
 .likes-total div p {
     font-size: 1.25rem;
-    margin: 0 0rem 0rem 0rem;
+    margin: 0rem 0rem 0rem 0rem;
     font-weight: bold;
 }
 
 
-/*------PHOTOGRAPHER-PAGE------*/
+/*  -------PHOTOGRAPHER-PAGE------*/
 
 .personal-fig {
     width: 350px;
