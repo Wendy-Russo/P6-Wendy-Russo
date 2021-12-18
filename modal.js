@@ -39,28 +39,11 @@ fetch('/media/data/photographers.json')
 
         thisPhotographerMedia.forEach((item) => totalLikes += item.likes);
 
-        function openMedia(i) {
-            if (document.getElementById("img-lb") != undefined) {
-                document.getElementById("img-lb").remove() //REMOVE VIDEO ELEMENT
-            }
-            if (thisPhotographerMedia[i].image != undefined) { //IF CLIC ON IMAGE
-                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", "<img id=\"img-lb\" class=\"col-10\" src=\"" + thisPhotographer.folder + thisPhotographerMedia[i].image + "\"" + "alt=\"" + thisPhotographerMedia[i].title + "\">")
-            } else { //IF CLIC ON VIDEO
-                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", "<video id=\"img-lb\" class=\"col-10\" src=\"" + thisPhotographer.folder + thisPhotographerMedia[i].video + "\" autoplay controls" + "alt=\"" + thisPhotographerMedia[i].title + "\"> </video>")
-            }
-            document.querySelector(".modal-footer p").innerHTML = thisPhotographerMedia[i].title
-            if (thisPhotographerMedia[i].title === undefined) {
-                document.querySelector(".modal-footer p").innerHTML = ""
-            }
-        }
-
         document.getElementById("button-close-lb").addEventListener("click", function() {
             MODALLB.toggle()
         });
 
         for (let i = 0; i < 10; i++) {
-
-            let THIS_IMAGE_ELEMENT = document.getElementById("photo-" + i);
             const THIS_LIKES_ELEMENT = document.getElementById("photo-" + i + "-likes");
             const THIS_TITLE_ELEMENT = document.getElementById("photo-" + i + "-title");
             const TOTAL_LIKES_ELEMENT = document.getElementById("likes-total");
@@ -159,44 +142,35 @@ fetch('/media/data/photographers.json')
                 }
             }
 
-            function loopInt(i) {
-                i += 1
-                if (i > 8) {
-                    i = 0;
-                    console.log(i + "looped");
-                }
-                if (i < 1) {
-                    //i = 9;
-                }
-                console.log(i);
-                openLb(i);
-            }
-
             function lightbox() {
                 THIS_FIGURE_ELEMENT.firstElementChild.addEventListener("click", function(e) {
                     let clickedID = e.path[0].id.substring(6, 7)
                     openLb(clickedID)
                     document.getElementById("button-right-lb").addEventListener("click", function() {
-                        if (clickedID++ > 8) {
+                        clickedID++
+                        if (clickedID > 9) {
                             clickedID = 0;
                         }
                         openLb(clickedID);
                     })
                     document.getElementById("button-left-lb").addEventListener("click", function() {
-                        if (clickedID-- < 1) {
+                        clickedID--
+                        if (clickedID < 0) {
                             clickedID = 9
                         }
                         openLb(clickedID)
                     })
                     document.body.addEventListener("keydown", function(event) {
                         if (event.key === "ArrowLeft") {
-                            if (clickedID-- < 1) {
+                            clickedID--
+                            if (clickedID < 0) {
                                 clickedID = 9
                             }
                             openLb(clickedID)
                         }
                         if (event.key === "ArrowRight") {
-                            if (clickedID++ > 8) {
+                            clickedID++
+                            if (clickedID > 9) {
                                 clickedID = 0
                             }
                             openLb(clickedID)
