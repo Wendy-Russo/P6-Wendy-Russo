@@ -43,37 +43,102 @@ fetch('/media/data/photographers.json')
             MODALLB.toggle()
         });
 
-        for (let i = 0; i < 10; i++) {
+        //############ADDS-PHOTOS############//
+        function addPhotos(i) {
+            const THIS_FIGURE_ELEMENT = document.getElementById("fig-" + i);
+            thisImage = thisPhotographerMedia[i].image;
+            thisVideo = thisPhotographerMedia[i].video;
+            imgElement = "<img src= \"" + thisPhotographer.folder + thisImage + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
+            vidElement = "<video src= \"" + thisPhotographer.folder + thisVideo + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
+            if (thisImage != undefined) {
+                THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", imgElement)
+            }
+            if (thisVideo != undefined) {
+                THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", vidElement);
+            }
+            THIS_FIGURE_ELEMENT.firstElementChild.remove()
+        }
+
+        //############Sets-Likes-Title############//
+        function setLikesTitle(i) {
             const THIS_LIKES_ELEMENT = document.getElementById("photo-" + i + "-likes");
             const THIS_TITLE_ELEMENT = document.getElementById("photo-" + i + "-title");
             const TOTAL_LIKES_ELEMENT = document.getElementById("likes-total");
+            thisLikes = thisPhotographerMedia[i].likes;
+            thisTitle = thisPhotographerMedia[i].title;
+            THIS_LIKES_ELEMENT.innerHTML = thisLikes;
+            THIS_TITLE_ELEMENT.innerHTML = thisTitle;
+            TOTAL_LIKES_ELEMENT.innerHTML = totalLikes
+        }
+
+        //############SORTS-BY-LIKES############//
+        function SortByLikes() {
+            thisPhotographerMedia.sort((a, b) => {
+                return b.likes - a.likes;
+            });
+        }
+
+        //############OPENS A FILLE IN THE LB############//
+        function openLb(clickedID) {
+            if (document.getElementById("img-lb") != undefined) {
+                document.getElementById("img-lb").remove()
+            }
+            if (thisPhotographerMedia[clickedID].image != undefined) {
+                imgElement = "<img src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].image + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" >"
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", imgElement)
+
+            } else {
+                vidElement = "<video src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].video + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" controls >"
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", vidElement)
+            }
+        }
+
+        //############OPENS THE RIGHT FILE DEPENTING ON INPUT ############//
+        function lightbox(i) {
+            THIS_FIGURE_ELEMENT = document.getElementById("fig-" + i);
+            THIS_FIGURE_ELEMENT.firstElementChild.addEventListener("click", function(e) {
+
+                let clickedID = e.path[0].id.substring(6, 7)
+                openLb(clickedID)
+                document.getElementById("button-right-lb").addEventListener("click", function() {
+                    clickedID++
+                    if (clickedID > 9) {
+                        clickedID = 0;
+                    }
+                    openLb(clickedID);
+                })
+                document.getElementById("button-left-lb").addEventListener("click", function() {
+                    clickedID--
+                    if (clickedID < 0) {
+                        clickedID = 9
+                    }
+                    openLb(clickedID)
+                })
+                document.body.addEventListener("keydown", function(event) {
+                    if (event.key === "ArrowLeft") {
+                        clickedID--
+                        if (clickedID < 0) {
+                            clickedID = 9
+                        }
+                        openLb(clickedID)
+                    }
+                    if (event.key === "ArrowRight") {
+                        clickedID++
+                        if (clickedID > 9) {
+                            clickedID = 0
+                        }
+                        openLb(clickedID)
+                    }
+                })
+                MODALLB.toggle()
+            });
+        }
+
+
+        for (let i = 0; i < 10; i++) {
             const THIS_LIKES_BUTTON_ELEMENT = document.getElementById("photo-" + i + "-button-like");
             const THIS_LIKES_ICON_ELEMENT = document.getElementById("photo-" + i + "-icon-like");
-            const THIS_FIGURE_ELEMENT = document.getElementById("fig-" + i);
 
-            //############Sets-Likes-Title############//
-            function setLikesTitle() {
-                thisLikes = thisPhotographerMedia[i].likes;
-                thisTitle = thisPhotographerMedia[i].title;
-                THIS_LIKES_ELEMENT.innerHTML = thisLikes;
-                THIS_TITLE_ELEMENT.innerHTML = thisTitle;
-                TOTAL_LIKES_ELEMENT.innerHTML = totalLikes
-            }
-
-            //############ADDS-PHOTOS############//
-            function addPhotos() {
-                thisImage = thisPhotographerMedia[i].image;
-                thisVideo = thisPhotographerMedia[i].video;
-                imgElement = "<img src= \"" + thisPhotographer.folder + thisImage + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
-                vidElement = "<video src= \"" + thisPhotographer.folder + thisVideo + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
-                if (thisImage != undefined) {
-                    THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", imgElement)
-                }
-                if (thisVideo != undefined) {
-                    THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", vidElement);
-                }
-                THIS_FIGURE_ELEMENT.firstElementChild.remove()
-            }
 
             //############LIKES-BUTTON############//
             THIS_LIKES_BUTTON_ELEMENT.addEventListener('click', function() {
@@ -86,21 +151,13 @@ fetch('/media/data/photographers.json')
                     thisPhotographerMedia[i].likes--, totalLikes--;
                     allLiked.splice(allLiked.indexOf(thisPhotographerMedia[i].title), 1)
                 }
-                setLikesTitle()
+                setLikesTitle(i)
             });
 
-            //############SORTS-BY-LIKES############//
-            function SortByLikes() {
-                thisPhotographerMedia.sort((a, b) => {
-                    return b.likes - a.likes;
-                });
-            }
-
-            TOTAL_LIKES_ELEMENT.innerHTML = totalLikes
             SortByLikes()
-            setLikesTitle()
-            addPhotos()
-            lightbox()
+            setLikesTitle(i)
+            addPhotos(i)
+            lightbox(i)
 
             //############SORTING############//
             SELECT_SORT.addEventListener('change', function() {
@@ -123,63 +180,10 @@ fetch('/media/data/photographers.json')
                         return 0;
                     });
                 }
-                setLikesTitle()
-                addPhotos()
-                lightbox()
+                setLikesTitle(i)
+                addPhotos(i)
+                lightbox(i)
             });
-
-            function openLb(clickedID) {
-                if (document.getElementById("img-lb") != undefined) {
-                    document.getElementById("img-lb").remove()
-                }
-                if (thisPhotographerMedia[clickedID].image != undefined) {
-                    imgElement = "<img src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].image + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" >"
-                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", imgElement)
-
-                } else {
-                    vidElement = "<video src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].video + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" controls >"
-                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", vidElement)
-                }
-            }
-
-            function lightbox() {
-                THIS_FIGURE_ELEMENT.firstElementChild.addEventListener("click", function(e) {
-                    let clickedID = e.path[0].id.substring(6, 7)
-                    openLb(clickedID)
-                    document.getElementById("button-right-lb").addEventListener("click", function() {
-                        clickedID++
-                        if (clickedID > 9) {
-                            clickedID = 0;
-                        }
-                        openLb(clickedID);
-                    })
-                    document.getElementById("button-left-lb").addEventListener("click", function() {
-                        clickedID--
-                        if (clickedID < 0) {
-                            clickedID = 9
-                        }
-                        openLb(clickedID)
-                    })
-                    document.body.addEventListener("keydown", function(event) {
-                        if (event.key === "ArrowLeft") {
-                            clickedID--
-                            if (clickedID < 0) {
-                                clickedID = 9
-                            }
-                            openLb(clickedID)
-                        }
-                        if (event.key === "ArrowRight") {
-                            clickedID++
-                            if (clickedID > 9) {
-                                clickedID = 0
-                            }
-                            openLb(clickedID)
-                        }
-                    })
-                    MODALLB.toggle()
-                    console.log(imgElement)
-                });
-            }
         }
         const CONTACT_FORM_ELEMENT = document.getElementById("contactForm")
         const CONTACT_FIRST_NAME_INPUT = document.getElementById("fname")
