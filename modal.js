@@ -9,16 +9,21 @@ fetch('/media/data/photographers.json')
 
         photographers = json.photographers;
         media = json.media;
-        ellieRoseWilkens = photographers[1];
-        tracyGalindo = photographers[2];
-        nabeelBradford = photographers[3];
-        rhodeDubois = photographers[4];
-        marcelNikolic = photographers[5];
 
-        var path = window.location.pathname;
-        var totalLikes = 0;
+        let path = window.location.pathname;
         let thisPhotographerMedia = [];
-        var selectSort = document.getElementById("select-sort");
+        let totalLikes = 0
+        let allLiked = []
+        const SELECT_SORT = document.getElementById("select-sort");
+        const MODALLB = new bootstrap.Modal(document.getElementById('modal-lb'), {
+            keyboard: false
+        });
+        let thisImage;
+        let thisVideo;
+        let thisLikes;
+        let imgElement;
+        let vidElement;
+        let thisTitle;
 
         // MATCHES FILES AND PHOTOGRAPHERS
         if (path == "/pages/mimi.html") {
@@ -32,173 +37,16 @@ fetch('/media/data/photographers.json')
             }
         }
 
-        console.log(thisPhotographerMedia)
+        thisPhotographerMedia.forEach((item) => totalLikes += item.likes);
 
-        function setDefaultLikes() {
-            for (let i = 0; i < 10; i++) {
-                document.getElementById("photo-" + i + "-likes").innerHTML = thisPhotographerMedia[i].likes;
-            }
-        }
-        setDefaultLikes()
-
-        function addPhoto(imgID) {
-            //IF THERE IS AN IMAGE CHANGE THE SOURCE AND TITLE
-            if (thisPhotographerMedia[imgID].image != undefined) { //IF IMAGE
-                document.getElementById("photo-" + imgID).src = thisPhotographer.folder + thisPhotographerMedia[imgID].image;
-                document.getElementById("photo-" + imgID + "-title").innerHTML = thisPhotographerMedia[imgID].title;
-            }
-            //IF THERE IS NO IMAGE ADD A VIDEO REMOVE THE IMAGE CHANGES THE SOURCE
-            if (thisPhotographerMedia[imgID].image == undefined) {
-                if (document.querySelector("img#photo-" + imgID) != undefined) {
-                    document.getElementById("photo-" + imgID).parentElement.insertAdjacentHTML("afterbegin", "<video src=\"" + thisPhotographer.folder + thisPhotographerMedia[imgID].video + "\"id=\"" + "photo-" + imgID + "\"class=\"img-fluid\">")
-                    document.querySelector("img#photo-" + imgID).remove()
-                }
-
-                //document.getElementById("photo-"+imgID).remove()
-            }
-            //ADDS THE LIKES
-            setDefaultLikes()
-        }
-
-        addPhoto(0)
-
-        function Add() {
-            for (var i = 0; i < 10; i++) {
-                if (thisPhotographerMedia[i] != undefined) {
-                    addPhoto(i);
-                }
-                if (thisPhotographerMedia[i] === undefined) {
-                    document.getElementById("photo-" + i).parentElement.style.display = "none"
-                }
-            }
-        }
-
-        // SORTS PHOTOS BY LIKES
-        function SortByLikes() {
-            thisPhotographerMedia.sort((a, b) => {
-                return a.likes - b.likes;
-            });
-        }
-
-        // SORTS PHOTOS BY DATE
-        function SortByDate() {
-            thisPhotographerMedia.sort((a, b) => {
-                return a.date.replaceAll('-', '') - b.date.replaceAll('-', '');
-            });
-        }
-
-        // SORTS PHOTOS BY TITLE
-        function SortByTitle() {
-            thisPhotographerMedia.sort((a, b) => {
-                if (a.title < b.title) {
-                    return -1;
-                }
-                if (a.title > b.title) {
-                    return 1;
-                }
-                return 0;
-            });
-        }
-
-        // PHOTOS ARE SORTED BY LIKES BY DEFAULT
-        SortByLikes()
-        Add()
-
-        // SORTS PHOTOS DEPENDING ON THE SELECTED OPTION
-        selectSort.addEventListener('change', function() {
-            if (selectSort.selectedIndex === 0) {
-                SortByLikes()
-            }
-            if (selectSort.selectedIndex === 1) {
-                SortByDate()
-            }
-            if (selectSort.selectedIndex === 2) {
-                SortByTitle()
-            }
-            Add()
-            setDefaultLikes()
-            CalcTotalLikes(0)
-            currentImage = 0
-            document.getElementById("image-lb").src = "#"
-
-        })
-
-        function CalcTotalLikes(i) { //CALCULATES TOTAL LIKES
-            totalLikes = 0
-            thisPhotographerMedia.forEach(
-                (item) => totalLikes = totalLikes + item.likes);
-            document.getElementById("likes-total").innerHTML = totalLikes + i;
-        }
-        CalcTotalLikes(0)
-
-        document.getElementById("photographer-name").innerHTML = thisPhotographer.name;
-
-        // ADDS THE PHOTOGRAPHERS NAME
-        document.getElementById("city-country").innerHTML = thisPhotographer.city + ", " + thisPhotographer.country;
-
-        // ADDS THE PHOTOGRAPHERS SLOGAN
-        document.getElementById("tagline").innerHTML = thisPhotographer.tagline;
-
-        // ADDS THE PHOTOGRAPHERS PORTRAIT
-        document.getElementById("portrait").src = "/media/sample-photos/photographers-id-photos/" + thisPhotographer.portrait;
-
-        // ADDS THE PHOTOGRAPHERS PRICE
-        document.getElementById("price").innerHTML = thisPhotographer.price + "€ / jour";
-
-        //DISPLAYS CONTACT INFO ON SUBMIT
-        document.getElementById("contactForm").addEventListener("submit", function(e) {
-            let contactPrenom = document.getElementById("fname").value
-            let contactNomFamille = document.getElementById("lname").value
-            let contactEmail = document.getElementById("email").value
-            let contactMessage = document.getElementById("message").value
-            console.log("Vous êtes " + contactPrenom + " " + contactNomFamille)
-            console.log("email = " + contactEmail)
-            console.log("message = " + contactMessage)
-            e.preventDefault()
-        })
-
-        //TOGGLES HEARTS AND LIKES
-        function bla(i) {
-            document.getElementById("photo-" + i + "-button-like").addEventListener('click', function() {
-                let likesNumber = thisPhotographerMedia[i].likes
-                let likesElement = document.getElementById("photo-" + i + "-likes")
-                    //TOGGLES HEART
-                document.getElementById("photo-" + i + "-icon-like").classList.toggle("fas")
-                    //TOGGLES LIKES
-                if (likesElement.innerHTML === likesNumber) {
-                    likesElement.innerHTML = likesNumber + 1
-                    CalcTotalLikes(1)
-                } else {
-                    likesElement.innerHTML = likesNumber
-                    CalcTotalLikes(0)
-                }
-            })
-        }
-        for (var i = 0; i < 10; i++) {
-            bla(i)
-        }
-
-
-        //LIGHTBOX
         function openMedia(i) {
+            if (document.getElementById("img-lb") != undefined) {
+                document.getElementById("img-lb").remove() //REMOVE VIDEO ELEMENT
+            }
             if (thisPhotographerMedia[i].image != undefined) { //IF CLIC ON IMAGE
-                if (document.querySelector("video#img-lb") != undefined) { //IF VIDEO ELEMENT EXISTS
-                    document.querySelector("video#img-lb").remove() //REMOVE VIDEO ELEMENT
-                }
-                if (document.querySelector("img#img-lb") === undefined) { //IF IMAGE ELEMENT NOT EXISTS ; ADDS IT AND SETS THE SOURCE
-                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", "<img id=\"img-lb\" class=\"col-10\" src=\"" + thisPhotographer.folder + thisPhotographerMedia[i].image + "\">")
-                } else { //IF IMAGE ELEMENT EXISTS ; SET ITS SOURCE
-                    document.getElementById("img-lb").src = thisPhotographer.folder + thisPhotographerMedia[i].image
-                }
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", "<img id=\"img-lb\" class=\"col-10\" src=\"" + thisPhotographer.folder + thisPhotographerMedia[i].image + "\"" + "alt=\"" + thisPhotographerMedia[i].title + "\">")
             } else { //IF CLIC ON VIDEO
-                if (document.querySelector("img#img-lb") != undefined) { //IF IMAGE ELEMENT EXISTS
-                    document.querySelector("img#img-lb").remove() //REMOVE THE ELEMENT
-                }
-                if (document.querySelector("video#img-lb") === undefined) { //IF VIDEO ELEMENT IS NOT ADDED
-                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", "<video id=\"img-lb\" class=\"col-10\" src=\"" + thisPhotographer.folder + thisPhotographerMedia[i].video + "\" autoplay controls></video>")
-                } else {
-                    document.getElementById("img-lb").src = thisPhotographer.folder + thisPhotographerMedia[i].video
-                }
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", "<video id=\"img-lb\" class=\"col-10\" src=\"" + thisPhotographer.folder + thisPhotographerMedia[i].video + "\" autoplay controls" + "alt=\"" + thisPhotographerMedia[i].title + "\"> </video>")
             }
             document.querySelector(".modal-footer p").innerHTML = thisPhotographerMedia[i].title
             if (thisPhotographerMedia[i].title === undefined) {
@@ -206,49 +54,174 @@ fetch('/media/data/photographers.json')
             }
         }
 
-        const modalLb = new bootstrap.Modal(document.getElementById('modal-lb'), {
-            keyboard: false
-        })
-
-        for (var i = 0; i < 10; i++) {
-            document.getElementById("photo-" + i).addEventListener("click", function(e) {
-                var mediaToOpen = e.path[0].id.substring(6, 7)
-                modalLb.toggle()
-                openMedia(mediaToOpen)
-                document.getElementById("button-left-lb").addEventListener("click", function() {
-                    mediaToOpen--
-                    if (mediaToOpen < 0) {
-                        mediaToOpen = 9
-                    }
-                    openMedia(mediaToOpen)
-                })
-                document.getElementById("button-right-lb").addEventListener("click", function() {
-                    mediaToOpen++
-                    if (mediaToOpen > 9) {
-                        mediaToOpen = 0
-                    }
-                    openMedia(mediaToOpen)
-                })
-                document.body.addEventListener("keydown", function(event) {
-                    if (event.key === "ArrowLeft") {
-                        mediaToOpen--
-                        if (mediaToOpen < 0) {
-                            mediaToOpen = 9
-                        }
-                        openMedia(mediaToOpen)
-                    }
-                    if (event.key === "ArrowRight") {
-                        mediaToOpen++
-                        if (mediaToOpen > 9) {
-                            mediaToOpen = 0
-                        }
-                        openMedia(mediaToOpen)
-                    }
-                })
-            })
-        }
         document.getElementById("button-close-lb").addEventListener("click", function() {
-            modalLb.toggle()
+            MODALLB.toggle()
+        });
+
+        for (let i = 0; i < 10; i++) {
+
+            let THIS_IMAGE_ELEMENT = document.getElementById("photo-" + i);
+            const THIS_LIKES_ELEMENT = document.getElementById("photo-" + i + "-likes");
+            const THIS_TITLE_ELEMENT = document.getElementById("photo-" + i + "-title");
+            const TOTAL_LIKES_ELEMENT = document.getElementById("likes-total");
+            const THIS_LIKES_BUTTON_ELEMENT = document.getElementById("photo-" + i + "-button-like");
+            const THIS_LIKES_ICON_ELEMENT = document.getElementById("photo-" + i + "-icon-like");
+            const THIS_FIGURE_ELEMENT = document.getElementById("fig-" + i);
+
+            //############Sets-Likes-Title############//
+            function setLikesTitle() {
+                thisLikes = thisPhotographerMedia[i].likes;
+                thisTitle = thisPhotographerMedia[i].title;
+                THIS_LIKES_ELEMENT.innerHTML = thisLikes;
+                THIS_TITLE_ELEMENT.innerHTML = thisTitle;
+                TOTAL_LIKES_ELEMENT.innerHTML = totalLikes
+            }
+
+            //############ADDS-PHOTOS############//
+            function addPhotos() {
+                thisImage = thisPhotographerMedia[i].image;
+                thisVideo = thisPhotographerMedia[i].video;
+                imgElement = "<img src= \"" + thisPhotographer.folder + thisImage + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
+                vidElement = "<video src= \"" + thisPhotographer.folder + thisVideo + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
+                if (thisImage != undefined) {
+                    THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", imgElement)
+                }
+                if (thisVideo != undefined) {
+                    THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", vidElement);
+                }
+                THIS_FIGURE_ELEMENT.firstElementChild.remove()
+            }
+
+            //############LIKES-BUTTON############//
+            THIS_LIKES_BUTTON_ELEMENT.addEventListener('click', function() {
+                if (!allLiked.includes(thisPhotographerMedia[i].title)) {
+                    THIS_LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
+                    thisPhotographerMedia[i].likes++, totalLikes++;
+                    allLiked.push(thisPhotographerMedia[i].title)
+                } else {
+                    THIS_LIKES_ICON_ELEMENT.setAttribute("class", "far fa-heart primary");
+                    thisPhotographerMedia[i].likes--, totalLikes--;
+                    allLiked.splice(allLiked.indexOf(thisPhotographerMedia[i].title), 1)
+                }
+                setLikesTitle()
+            });
+
+            //############SORTS-BY-LIKES############//
+            function SortByLikes() {
+                thisPhotographerMedia.sort((a, b) => {
+                    return b.likes - a.likes;
+                });
+            }
+
+            TOTAL_LIKES_ELEMENT.innerHTML = totalLikes
+            SortByLikes()
+            setLikesTitle()
+            addPhotos()
+            lightbox()
+
+            //############SORTING############//
+            SELECT_SORT.addEventListener('change', function() {
+                if (SELECT_SORT.selectedIndex === 0) {
+                    SortByLikes()
+                }
+                if (SELECT_SORT.selectedIndex === 1) {
+                    thisPhotographerMedia.sort((a, b) => {
+                        return a.date.replaceAll('-', '') - b.date.replaceAll('-', '');
+                    });
+                }
+                if (SELECT_SORT.selectedIndex === 2) {
+                    thisPhotographerMedia.sort((a, b) => {
+                        if (a.title < b.title) {
+                            return -1;
+                        }
+                        if (a.title > b.title) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                }
+                setLikesTitle()
+                addPhotos()
+                lightbox()
+            });
+
+            function openLb(clickedID) {
+                if (document.getElementById("img-lb") != undefined) {
+                    document.getElementById("img-lb").remove()
+                }
+                if (thisPhotographerMedia[clickedID].image != undefined) {
+                    imgElement = "<img src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].image + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" >"
+                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", imgElement)
+
+                } else {
+                    vidElement = "<video src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].video + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" controls >"
+                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", vidElement)
+                }
+            }
+
+            function loopInt(i) {
+                i += 1
+                if (i > 8) {
+                    i = 0;
+                    console.log(i + "looped");
+                }
+                if (i < 1) {
+                    //i = 9;
+                }
+                console.log(i);
+                openLb(i);
+            }
+
+            function lightbox() {
+                THIS_FIGURE_ELEMENT.firstElementChild.addEventListener("click", function(e) {
+                    let clickedID = e.path[0].id.substring(6, 7)
+                    openLb(clickedID)
+                    document.getElementById("button-right-lb").addEventListener("click", function() {
+                        if (clickedID++ > 8) {
+                            clickedID = 0;
+                        }
+                        openLb(clickedID);
+                    })
+                    document.getElementById("button-left-lb").addEventListener("click", function() {
+                        if (clickedID-- < 1) {
+                            clickedID = 9
+                        }
+                        openLb(clickedID)
+                    })
+                    document.body.addEventListener("keydown", function(event) {
+                        if (event.key === "ArrowLeft") {
+                            if (clickedID-- < 1) {
+                                clickedID = 9
+                            }
+                            openLb(clickedID)
+                        }
+                        if (event.key === "ArrowRight") {
+                            if (clickedID++ > 8) {
+                                clickedID = 0
+                            }
+                            openLb(clickedID)
+                        }
+                    })
+                    MODALLB.toggle()
+                    console.log(imgElement)
+                });
+            }
+        }
+        const CONTACT_FORM_ELEMENT = document.getElementById("contactForm")
+        const CONTACT_FIRST_NAME_INPUT = document.getElementById("fname")
+        const CONTACT_LAST_NAME_INPUT = document.getElementById("lname")
+        const CONTACT_EMAIL_INPUT = document.getElementById("email")
+        const CONTACT_MESSAGE_INPUT = document.getElementById("message")
+
+        document.getElementById("photographer-name").innerHTML = thisPhotographer.name;
+        document.getElementById("city-country").innerHTML = thisPhotographer.city + ", " + thisPhotographer.country;
+        document.getElementById("tagline").innerHTML = thisPhotographer.tagline;
+        document.getElementById("portrait").src = "/media/sample-photos/photographers-id-photos/" + thisPhotographer.portrait;
+        document.getElementById("price").innerHTML = thisPhotographer.price + "€ / jour";
+
+        CONTACT_FORM_ELEMENT.addEventListener('submit', function(e) {
+            console.log("Prénom : " + CONTACT_FIRST_NAME_INPUT.value + " Nom : " + CONTACT_LAST_NAME_INPUT.value + " Email : " + CONTACT_EMAIL_INPUT.value + " Message : " + CONTACT_MESSAGE_INPUT.value)
+            e.preventDefault()
         })
     })
     .catch(function() {
