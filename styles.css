@@ -2,288 +2,293 @@
 
 
 /*
-    --primary-red: #901c1c ;
-    --secondary: #D3573C ;
-    --secondary-beige: #DB8876 ;
-    --tertiary: #525252 ;
-    --quaternary: #FAFAFA ;
+  --primary-red: #901c1c ;
+  --secondary: #D3573C ;
+  --secondary-beige: #DB8876 ;
+  --tertiary: #525252 ;
+  --quaternary: #FAFAFA ;
 */
 
 .primary {
-    color: #901c1c;
+  color: #901c1c;
 }
 
 .secondary {
-    color: #d3573c;
+  color: #d3573c;
 }
 
 .tertiary {
-    color: #525252;
+  color: #525252;
 }
 
 .bg-quaternary {
-    background-color: #fafafa;
+  background-color: #fafafa;
 }
 
 .bg-secondary-beige {
-    background-color: #db8876;
+  background-color: #db8876;
 }
 
 
 /* ------GENERAL------*/
 
 :root {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 a {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }
 
 h1 {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 
 h2 {
-    font-size: 2.5rem;
-    margin-top: 1rem;
+  font-size: 2.5rem;
+  margin-top: 1rem;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
 img {
-    margin: 0px;
+  margin: 0px;
 }
 
 * {
-    margin: 0;
+  margin: 0;
 }
 
 
 /* ------GENERAL-CLASSES------*/
 
 .w-fit {
-    width: fit-content;
+  width: fit-content;
 }
 
 .h-fit {
-    height: fit-content;
+  height: fit-content;
 }
 
 .bgr-primary {
-    background-color: #901c1c;
+  background-color: #901c1c;
 }
 
 .white {
-    color: white;
+  color: white;
 }
 
 
 /*------CUSTOM BOOTSTRAP------*/
 
 .mx-auto {
-    display: block;
-    margin: auto;
+  display: block;
+  margin: auto;
 }
 
 .row {
-    margin: 0;
-    padding: 0;
-    margin-top: 0;
-    --bs-gutter-y: 0rem;
+  margin: 0;
+  padding: 0;
+  margin-top: 0;
+  --bs-gutter-y: 0rem;
 }
 
 .col {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 
 /*------NAVBAR------*/
 
 .navbar {
-    padding: 3rem;
+  padding: 3rem;
 }
 
 .navbar-nav {
-    justify-content: space-between;
+  justify-content: space-between;
 }
 
 .logo {
-    height: 50px;
+  height: 50px;
 }
 
 
 /*------SELECT-SORT------*/
 
 .select-sort {
-    border-radius: .5rem;
-    margin: 2rem;
-    padding: .5rem 2rem .5rem 1rem;
+  border-radius: 0.5rem;
+  margin: 2rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
 }
 
 .select-sort p {
-    display: block;
-    width: 100px;
-    height: 200px;
-    padding: 5rem;
+  display: block;
+  width: 100px;
+  height: 200px;
+  padding: 5rem;
 }
 
 
 /*------PHOTOGRAPHES------*/
 
 .sq200 {
-    display: block;
-    width: 200px;
-    height: 200px;
-    box-shadow: rgba(0, 0, 0, 0.333) 0rem 0rem 1rem;
+  display: block;
+  width: 200px;
+  height: 200px;
+  box-shadow: rgba(0, 0, 0, 0.333) 0rem 0rem 1rem;
 }
 
 .rounded-circle {
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .p-city {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .p-slogan {
-    font-weight: semibold;
-    color: black;
+  font-weight: semibold;
+  color: black;
 }
 
 .img-logo {
-    width: 200px;
+  width: 200px;
 }
 
 .home-fig {
-    --bs-gutter-y: 3rem;
+  --bs-gutter-y: 3rem;
 }
 
 
 /* ------TOTAL LIKES------*/
 
 .likes-total-container {
-    position: fixed;
-    bottom: 0;
-    width: initial;
-    justify-content: flex-end;
+  position: fixed;
+  bottom: 0;
+  width: initial;
+  justify-content: flex-end;
 }
 
 .likes-total {
-    position: fixed;
-    width: 350px;
-    height: 50px;
-    border-radius: 0.5rem 0.5rem 0rem 0rem;
-    align-content: center;
-    bottom: 0;
+  position: fixed;
+  width: 350px;
+  height: 50px;
+  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  align-content: center;
+  bottom: 0;
 }
 
 .likes-total div {
-    align-items: center;
-    justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .likes-total div p {
-    font-size: 1.25rem;
-    margin: 0rem 0rem 0rem 0rem;
-    font-weight: bold;
+  font-size: 1.25rem;
+  margin: 0rem 0rem 0rem 0rem;
+  font-weight: bold;
 }
 
 
 /*  -------PHOTOGRAPHER-PAGE------*/
 
 .personal-fig {
-    width: 350px;
-    height: 350px;
-    padding: 0;
+  width: 350px;
+  height: 350px;
+  padding: 0;
 }
 
 .personal-fig footer {
-    height: 50px;
-    align-items: center;
+  height: 50px;
+  align-items: center;
 }
 
 .personal-fig img,
 .personal-fig video {
-    width: 100%;
-    height: 300px;
-    border-radius: .5rem;
-    object-fit: cover;
-    margin: auto auto auto auto;
+  width: 100%;
+  height: 300px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  margin: auto auto auto auto;
+}
+
+.button-img{
+width: 350px;
+height: 300px;
 }
 
 .row-photographer-info {
-    align-items: center;
-    height: 313px;
+  align-items: center;
+  height: 313px;
 }
 
 .button-like {
-    border: 0px;
-    background-color: white;
+  border: 0px;
+  background-color: white;
 }
 
 #modal-lb {
-    background-color: white;
+  background-color: white;
 }
 
 #modal-lb-dialog {
-    display: flex;
-    align-items: center;
-    height: 100vh;
-    margin: 0 auto;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  margin: 0 auto;
 }
 
 .modal-content {
-    border: 0;
-    flex-direction: unset;
-    flex-wrap: wrap;
-    justify-content: center;
+  border: 0;
+  flex-direction: unset;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 #modal-lb button {
-    border: none;
-    background-color: white;
+  border: none;
+  background-color: white;
 }
 
 .modal-header {
-    width: 90%;
-    justify-content: flex-end;
-    border: white;
+  width: 90%;
+  justify-content: flex-end;
+  border: white;
 }
 
 .modal-body {
-    justify-content: center;
-    align-items: center;
-    height: min-content;
+  justify-content: center;
+  align-items: center;
+  height: min-content;
 }
 
 .modal-body button {
-    height: min-content;
+  height: min-content;
 }
 
 .modal-footer {
-    width: 100%;
-    justify-content: center;
-    border: white;
+  width: 100%;
+  justify-content: center;
+  border: white;
 }
 
 #modal-lb i {
-    font-size: 3rem;
+  font-size: 3rem;
 }
 
 #img-lb {
-    height: 100%;
-    max-height: 87vh;
-    width: auto;
-    max-width: 80%;
+  height: 100%;
+  max-height: 87vh;
+  width: auto;
+  max-width: 80%;
 }
 
-.fa-times {
-    position: fixed;
-    top: 2rem;
-    right: 3rem;
+.close {
+  position: fixed;
+  top: 2rem;
+  right: 3rem;
 }

@@ -1,3 +1,4 @@
+"use strict";
 fetch('/media/data/photographers.json')
     .then(response => {
         if (!response.ok) {
@@ -7,201 +8,250 @@ fetch('/media/data/photographers.json')
     })
     .then((json) => {
 
-        photographers = json.photographers;
-        media = json.media;
+        let domFactory = function(){
+            this.makeDom = function(type,place,i){
+                let dom;
+                if(type === "img" && place === "gallery"){
+                    dom = new imgGallery(i);
+                }
+                if(type === "img" && place === "lb"){
+                    dom = new imgLb(i);
+                }
+                if(type === "vid" && place === "gallery"){
+                    dom = new vidGallery(i);
+                }
+                if(type === "vid" && place === "lb"){
+                    dom = new vidLb(i);
+                }
+                return dom;
+            }
+        }
+        const imgGallery = function(i){
+            this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\"id= \"photo-" + i + " \"alt=\"" + arrayPhotos[i].title + "\" >";
+        }
+        const imgLb = function(i){
+            this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + arrayPhotos[i].title + "\" >";
+        }
+        const vidGallery = function(i){
+            this.dom = "<video src= \"" + photographer.folder + arrayPhotos[i].video + "\"id= \"photo-" + i + " \"alt=\"" + arrayPhotos[i].title + "\" >";
+        }
+        const vidLb = function(i){
+            this.dom = "<video src= \"" + photographer.folder + arrayPhotos[i].video + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + arrayPhotos[i].title + "\" controls >";
+        }
 
+
+        let factory = new domFactory()
+        let photographers = json.photographers;
+        let media = json.media;
         let path = window.location.pathname;
-        let thisPhotographerMedia = [];
+        let arrayPhotos = [];
         let totalLikes = 0
         let allLiked = []
         const SELECT_SORT = document.getElementById("select-sort");
-        const MODALLB = new bootstrap.Modal(document.getElementById('modal-lb'), {
-            keyboard: false
-        });
-        let thisImage;
-        let thisVideo;
-        let thisLikes;
-        let imgElement;
-        let vidElement;
-        let thisTitle;
+        const MODALLB = new bootstrap.Modal(document.getElementById('modal-lb'), {keyboard: false});
+        let photographer;
+        let TOTAL_LIKES_ELEMENT = document.getElementById("likes-total")
 
         // MATCHES FILES AND PHOTOGRAPHERS
         if (path == "/pages/mimi.html") {
-            thisPhotographer = photographers[0]
+            photographer = photographers[0]
         }
 
         // GETS ALL PHOTOS BY PHOTOGRAPHER
         for (var i = 0; i < media.length; i++) {
-            if (media[i].photographerId === thisPhotographer.id) {
-                thisPhotographerMedia.push(media[i]);
+            if (media[i].photographerId === photographer.id) {
+                arrayPhotos.push(media[i]);
             }
         }
 
-        thisPhotographerMedia.forEach((item) => totalLikes += item.likes);
+        arrayPhotos.forEach((item) => totalLikes += item.likes);
 
         document.getElementById("button-close-lb").addEventListener("click", function() {
             MODALLB.toggle()
         });
 
+
+
         //############ADDS-PHOTOS############//
         function addPhotos(i) {
-            const THIS_FIGURE_ELEMENT = document.getElementById("fig-" + i);
-            thisImage = thisPhotographerMedia[i].image;
-            thisVideo = thisPhotographerMedia[i].video;
-            imgElement = "<img src= \"" + thisPhotographer.folder + thisImage + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
-            vidElement = "<video src= \"" + thisPhotographer.folder + thisVideo + "\"id= \"photo-" + i + " \"alt=\"" + thisTitle + "\" >"
-            if (thisImage != undefined) {
-                THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", imgElement)
+            if (arrayPhotos[i].image != undefined) {
+                let image = factory.makeDom("img","gallery",i)
+                document.getElementById("but-" + i).firstElementChild.insertAdjacentHTML("afterend", image.dom)
             }
-            if (thisVideo != undefined) {
-                THIS_FIGURE_ELEMENT.firstElementChild.insertAdjacentHTML("afterend", vidElement);
+            if (arrayPhotos[i].video != undefined) {
+                let video = factory.makeDom("vid","gallery",i)
+                document.getElementById("but-" + i).firstElementChild.insertAdjacentHTML("afterend", video.dom);
             }
-            THIS_FIGURE_ELEMENT.firstElementChild.remove()
+            document.getElementById("but-" + i).firstElementChild.remove()
         }
 
         //############Sets-Likes-Title############//
         function setLikesTitle(i) {
-            const THIS_LIKES_ELEMENT = document.getElementById("photo-" + i + "-likes");
-            const THIS_TITLE_ELEMENT = document.getElementById("photo-" + i + "-title");
-            const TOTAL_LIKES_ELEMENT = document.getElementById("likes-total");
-            thisLikes = thisPhotographerMedia[i].likes;
-            thisTitle = thisPhotographerMedia[i].title;
-            THIS_LIKES_ELEMENT.innerHTML = thisLikes;
-            THIS_TITLE_ELEMENT.innerHTML = thisTitle;
-            TOTAL_LIKES_ELEMENT.innerHTML = totalLikes
+            //THIS_LIKES_ELEMENT.innerHTML = arrayPhotos[i].likes;
+            document.getElementById("photo-" + i + "-likes").innerHTML = arrayPhotos[i].likes;
+            document.getElementById("photo-" + i + "-title").innerHTML = arrayPhotos[i].title;
+            TOTAL_LIKES_ELEMENT.innerHTML = totalLikes;
         }
 
         //############SORTS-BY-LIKES############//
         function SortByLikes() {
-            thisPhotographerMedia.sort((a, b) => {
+            arrayPhotos.sort((a, b) => {
+
                 return b.likes - a.likes;
             });
         }
 
         //############OPENS A FILLE IN THE LB############//
+
         function openLb(clickedID) {
+
             if (document.getElementById("img-lb") != undefined) {
                 document.getElementById("img-lb").remove()
             }
-            if (thisPhotographerMedia[clickedID].image != undefined) {
-                imgElement = "<img src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].image + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" >"
-                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", imgElement)
+            if (arrayPhotos[clickedID].image != undefined) {
+                let image = factory.makeDom("img","lb",clickedID)
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", image.dom)
 
             } else {
-                vidElement = "<video src= \"" + thisPhotographer.folder + thisPhotographerMedia[clickedID].video + "\" class=\"col-10\" id=\"img-lb\"alt=\"" + thisTitle + "\" controls >"
-                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", vidElement)
+                let video = factory.makeDom("vid","lb",clickedID)
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", video.dom)
             }
+
+            console.log(clickedID)
         }
 
+        function loopInt(clickedID){
+
+            if (clickedID < 0) {
+                clickedID = 9;
+            }
+            if (clickedID > 9) {
+                clickedID = 0;
+            }
+            console.log(clickedID)
+            openLb(clickedID);
+
+            return clickedID;
+        }
         //############OPENS THE RIGHT FILE DEPENTING ON INPUT ############//
         function lightbox(i) {
-            THIS_FIGURE_ELEMENT = document.getElementById("fig-" + i);
-            THIS_FIGURE_ELEMENT.firstElementChild.addEventListener("click", function(e) {
-
-                let clickedID = e.path[0].id.substring(6, 7)
+            document.getElementById("but-" + i).addEventListener("click", function(e) {
+                let clickedID = i
                 openLb(clickedID)
+
                 document.getElementById("button-right-lb").addEventListener("click", function() {
-                    clickedID++
-                    if (clickedID > 9) {
-                        clickedID = 0;
-                    }
-                    openLb(clickedID);
-                })
+                    clickedID++;
+                    clickedID = loopInt(clickedID);
+                });
+
                 document.getElementById("button-left-lb").addEventListener("click", function() {
-                    clickedID--
-                    if (clickedID < 0) {
-                        clickedID = 9
-                    }
-                    openLb(clickedID)
-                })
+                    clickedID--;
+                    clickedID = loopInt(clickedID);
+                });
+
                 document.body.addEventListener("keydown", function(event) {
+
                     if (event.key === "ArrowLeft") {
                         clickedID--
-                        if (clickedID < 0) {
-                            clickedID = 9
-                        }
-                        openLb(clickedID)
+                        clickedID = loopInt(clickedID);
                     }
+
                     if (event.key === "ArrowRight") {
                         clickedID++
-                        if (clickedID > 9) {
-                            clickedID = 0
-                        }
-                        openLb(clickedID)
+                        clickedID = loopInt(clickedID);
                     }
+
+                    if (event.key === "Escape"){
+                        MODALLB.hide()
+                    }
+
                 })
-                MODALLB.toggle()
+                MODALLB.show()
             });
         }
 
-
         for (let i = 0; i < 10; i++) {
-            const THIS_LIKES_BUTTON_ELEMENT = document.getElementById("photo-" + i + "-button-like");
-            const THIS_LIKES_ICON_ELEMENT = document.getElementById("photo-" + i + "-icon-like");
+            //let imageMain = domFactory.createDOM()
 
+            let THIS_LIKES_BUTTON_ELEMENT = document.getElementById("photo-" + i + "-button-like");
+            let THIS_LIKES_ICON_ELEMENT = document.getElementById("photo-" + i + "-icon-like");
 
             //############LIKES-BUTTON############//
+
             THIS_LIKES_BUTTON_ELEMENT.addEventListener('click', function() {
-                if (!allLiked.includes(thisPhotographerMedia[i].title)) {
+
+                if (!allLiked.includes(arrayPhotos[i].title)) {
                     THIS_LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
-                    thisPhotographerMedia[i].likes++, totalLikes++;
-                    allLiked.push(thisPhotographerMedia[i].title)
+                    arrayPhotos[i].likes ++, totalLikes++;
+                    allLiked.push(arrayPhotos[i].title)
+
                 } else {
                     THIS_LIKES_ICON_ELEMENT.setAttribute("class", "far fa-heart primary");
-                    thisPhotographerMedia[i].likes--, totalLikes--;
-                    allLiked.splice(allLiked.indexOf(thisPhotographerMedia[i].title), 1)
+                    arrayPhotos[i].likes--, totalLikes--;
+                    allLiked.splice(allLiked.indexOf(arrayPhotos[i].title), 1)
                 }
                 setLikesTitle(i)
             });
 
             SortByLikes()
-            setLikesTitle(i)
+            setLikesTitle(i);
             addPhotos(i)
             lightbox(i)
 
             //############SORTING############//
             SELECT_SORT.addEventListener('change', function() {
+
                 if (SELECT_SORT.selectedIndex === 0) {
                     SortByLikes()
                 }
+
                 if (SELECT_SORT.selectedIndex === 1) {
-                    thisPhotographerMedia.sort((a, b) => {
+                    arrayPhotos.sort((a, b) => {
                         return a.date.replaceAll('-', '') - b.date.replaceAll('-', '');
                     });
                 }
+
                 if (SELECT_SORT.selectedIndex === 2) {
-                    thisPhotographerMedia.sort((a, b) => {
+                    arrayPhotos.sort((a, b) => {
+
                         if (a.title < b.title) {
                             return -1;
                         }
+
                         if (a.title > b.title) {
                             return 1;
                         }
                         return 0;
                     });
                 }
+                //MOVES LIKES AFTER REFRESH
+                //IF THIS ELEMENT WAS LIKED
+                if (!allLiked.includes(arrayPhotos[i].title)){
+                    THIS_LIKES_ICON_ELEMENT.setAttribute("class", "far fa-heart primary");
+                }
+                //IF THIS ELEMENT WAS NOT LIKES
+                else{
+                    THIS_LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
+                }
+
                 setLikesTitle(i)
                 addPhotos(i)
-                lightbox(i)
+                //lightbox(i)
             });
         }
-        const CONTACT_FORM_ELEMENT = document.getElementById("contactForm")
-        const CONTACT_FIRST_NAME_INPUT = document.getElementById("fname")
-        const CONTACT_LAST_NAME_INPUT = document.getElementById("lname")
-        const CONTACT_EMAIL_INPUT = document.getElementById("email")
-        const CONTACT_MESSAGE_INPUT = document.getElementById("message")
 
-        document.getElementById("photographer-name").innerHTML = thisPhotographer.name;
-        document.getElementById("city-country").innerHTML = thisPhotographer.city + ", " + thisPhotographer.country;
-        document.getElementById("tagline").innerHTML = thisPhotographer.tagline;
-        document.getElementById("portrait").src = "/media/sample-photos/photographers-id-photos/" + thisPhotographer.portrait;
-        document.getElementById("price").innerHTML = thisPhotographer.price + "€ / jour";
-
-        CONTACT_FORM_ELEMENT.addEventListener('submit', function(e) {
-            console.log("Prénom : " + CONTACT_FIRST_NAME_INPUT.value + " Nom : " + CONTACT_LAST_NAME_INPUT.value + " Email : " + CONTACT_EMAIL_INPUT.value + " Message : " + CONTACT_MESSAGE_INPUT.value)
+        document.getElementById("photographer-name").innerHTML = photographer.name;
+        document.getElementById("city-country").innerHTML = photographer.city + ", " + photographer.country;
+        document.getElementById("tagline").innerHTML = photographer.tagline;
+        document.getElementById("portrait").src = "/media/sample-photos/photographers-id-photos/" + photographer.portrait;
+        document.getElementById("price").innerHTML = photographer.price + "€ / jour";
+        document.getElementById("contactForm").addEventListener('submit', function(e) {
+            console.log("Prénom : " + document.getElementById("fname").value + " Nom : " + document.getElementById("fname").value + " Email : " + document.getElementById("fname").value + " Message : " + document.getElementById("message").value)
             e.preventDefault()
         })
     })
+    /*
     .catch(function() {
         this.dataError = true;
     })
+    */
