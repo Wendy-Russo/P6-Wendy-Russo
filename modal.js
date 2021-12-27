@@ -233,10 +233,8 @@ fetch('/media/data/photographers.json')
                 else{
                     THIS_LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
                 }
-
                 setLikesTitle(i)
                 addPhotos(i)
-                //lightbox(i)
             });
         }
 
@@ -250,8 +248,3 @@ fetch('/media/data/photographers.json')
             e.preventDefault()
         })
     })
-    /*
-    .catch(function() {
-        this.dataError = true;
-    })
-    */
