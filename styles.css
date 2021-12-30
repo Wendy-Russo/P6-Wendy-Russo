@@ -1,7 +1,4 @@
-/*  ------COLORS------*/
-
-
-/*
+/*  ------COLORS------
   --primary-red: #901c1c ;
   --secondary: #D3573C ;
   --secondary-beige: #DB8876 ;
@@ -30,7 +27,7 @@
 }
 
 
-/* ------GENERAL------*/
+/* ------GENERAL------ */
 
 :root {
   font-size: 1.2rem;
@@ -55,7 +52,7 @@ p {
 }
 
 img {
-  margin: 0px;
+  margin: 0;
 }
 
 * {
@@ -82,7 +79,7 @@ img {
 }
 
 
-/*------CUSTOM BOOTSTRAP------*/
+/* ------CUSTOM BOOTSTRAP------*/
 
 .mx-auto {
   display: block;
@@ -93,7 +90,7 @@ img {
   margin: 0;
   padding: 0;
   margin-top: 0;
-  --bs-gutter-y: 0rem;
+  --bs-gutter-y: 0;
 }
 
 .col {
@@ -101,8 +98,7 @@ img {
   padding: 0;
 }
 
-
-/*------NAVBAR------*/
+/* ------NAVBAR------*/
 
 .navbar {
   padding: 3rem;
@@ -116,8 +112,7 @@ img {
   height: 50px;
 }
 
-
-/*------SELECT-SORT------*/
+/* ------SELECT-SORT------*/
 
 .select-sort {
   border-radius: 0.5rem;
@@ -132,14 +127,13 @@ img {
   padding: 5rem;
 }
 
-
 /*------PHOTOGRAPHES------*/
 
 .sq200 {
   display: block;
   width: 200px;
   height: 200px;
-  box-shadow: rgba(0, 0, 0, 0.333) 0rem 0rem 1rem;
+  box-shadow: rgba(0, 0, 0, 0.333) 0 0 1rem;
 }
 
 .rounded-circle {
@@ -163,7 +157,6 @@ img {
   --bs-gutter-y: 3rem;
 }
 
-
 /* ------TOTAL LIKES------*/
 
 .likes-total-container {
@@ -177,7 +170,7 @@ img {
   position: fixed;
   width: 350px;
   height: 50px;
-  border-radius: 0.5rem 0.5rem 0rem 0rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   align-content: center;
   bottom: 0;
 }
@@ -189,10 +182,9 @@ img {
 
 .likes-total div p {
   font-size: 1.25rem;
-  margin: 0rem 0rem 0rem 0rem;
+  margin: 0 0 0 0;
   font-weight: bold;
 }
-
 
 /*  -------PHOTOGRAPHER-PAGE------*/
 
@@ -227,7 +219,7 @@ height: 300px;
 }
 
 .button-like {
-  border: 0px;
+  border: 0;
   background-color: white;
 }
 
