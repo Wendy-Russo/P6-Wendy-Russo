@@ -1,5 +1,5 @@
 "use strict";
-fetch('/media/data/photographers.json')
+fetch("/media/data/photographers.json")
     .then(response => {
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
@@ -8,32 +8,22 @@ fetch('/media/data/photographers.json')
     })
 
     .then((json) => {
-
-        let factory = new DomFactory();
-        let photographers = json.photographers;
-        let media = json.media;
-        let path = window.location.pathname;
-        let arrayPhotos = [];
-        let totalLikes = 0;
-        let allLiked = [];
-        let photographer;
-
          //DEFINES THIS.DOM AS THE ELEMENT FOR AN IMAGE IN THE GALLERY
          const ImgGallery = function(i){
             this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\"id= \"photo-" + i + " \" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" >";
-        }
+        };
         //DEFINES THIS.DOM AS THE ELEMENT FOR AN IMAGE IN THE LIGHTBOX
         const ImgLb = function(i){
             this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\"  class=\"col-10\" id=\"img-lb\" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" >";
-        }
+        };
         //DEFINES THIS.DOM AS THE ELEMENT FOR AN VIDEO IN THE GALLERY
         const VidGallery = function(i){
             this.dom = "<video src= \"" + photographer.folder + arrayPhotos[i].video + "\"id= \"photo-" + i + " \" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" >";
-        }
+        };
         //DEFINES THIS.DOM AS THE ELEMENT FOR AN VIDEO IN THE LIGHTBOX
         const VidLb = function(i){
             this.dom = "<video src= \"" + photographer.folder + arrayPhotos[i].video + "\" class=\"col-10\" id=\"img-lb\" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" controls >";
-        }
+        };
         //RETURNS THE RIGHT ELEMENT BASED ON THE ARGUMENTS
         let DomFactory = function(){
             this.makeDom = function(type,place,i){
@@ -54,6 +44,15 @@ fetch('/media/data/photographers.json')
             };
         }
 
+        let factory = new DomFactory();
+        let photographers = json.photographers;
+        let media = json.media;
+        let path = window.location.pathname;
+        let arrayPhotos = [];
+        let totalLikes = 0;
+        let allLiked = [];
+        let photographer;
+
         function loopInt(clickedID){
             //SETS ID TO LAST IF TOO LOW
             if (clickedID < 0) {
@@ -70,12 +69,12 @@ fetch('/media/data/photographers.json')
         //############ADDS-PHOTOS############//
         function addPhotos(i) {
             //ADDS PHOTO IF IT EXISTS IN THE ARRAY
-            if (arrayPhotos[i].image != undefined) {
+            if (arrayPhotos[i].image !== undefined) {
                 let image = factory.makeDom("img","gallery",i);
                 document.getElementById("but-" + i).firstElementChild.insertAdjacentHTML("afterend", image.dom);
             }
             //ADDS VIDEO IF IT EXISTS IN THE ARRAY
-            if (arrayPhotos[i].video != undefined) {
+            if (arrayPhotos[i].video !== undefined) {
                 let video = factory.makeDom("vid","gallery",i);
                 document.getElementById("but-" + i).firstElementChild.insertAdjacentHTML("afterend", video.dom);
             }
@@ -93,14 +92,69 @@ fetch('/media/data/photographers.json')
                 return b.likes - a.likes;
             });
         }
-
-        if(path !== "/index.html"){
-            console.log("index");
+        //############OPENS A FILLE IN THE LB############//
+        function openLb(clickedID) {
+            //REMOVES THE OLD MEDIA IF A NEW ONE IS ADDED
+            if (document.getElementById("img-lb") != undefined) {
+                document.getElementById("img-lb").remove();
+            }
+            //ADDS AN IMAGE IF IT EXISTS IN THE ARRAY
+            if (arrayPhotos[clickedID].image != undefined) {
+                let image = factory.makeDom("img","lb",clickedID);
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", image.dom);
+            //ADDS A VIDEO IF IT EXISTS IN THE ARRAY
+            } else {
+                let video = factory.makeDom("vid","lb",clickedID);
+                document.getElementById("button-left-lb").insertAdjacentHTML("afterend", video.dom);
+            }
+            console.log(clickedID);
+        }
+        //############OPENS THE RIGHT FILE DEPENTING ON INPUT ############//
+        function lightbox(i) {
             const MODALLB      = new bootstrap.Modal(document.getElementById("modal-lb"), {keyboard: false});
+            document.getElementById("but-" + i).addEventListener("click", function() {
+                let clickedID = i;
+                openLb(clickedID);
+                //OPENS NEXT IMAGE IF CLICK RIGHT BUTTON
+                document.getElementById("button-right-lb").addEventListener("click", function() {
+                    clickedID++;
+                    clickedID = loopInt(clickedID);
+                });
+                //OPENS PREVIOUS IMAGE IF I CLICK THE LEFT BUTTON
+                document.getElementById("button-left-lb").addEventListener("click", function() {
+                    clickedID--;
+                    clickedID = loopInt(clickedID);
+                });
+                document.getElementById("button-close-lb").addEventListener("click", function() {
+                    MODALLB.hide();
+                });
+                //LISTENS TO KEYSTROKES
+                document.body.addEventListener("keydown", function(event) {
+                    //OPENS PREVIOUS IMAGE IF I HIT LEFT ARROW
+                    if (event.key === "ArrowLeft") {
+                        clickedID--;
+                        clickedID = loopInt(clickedID);
+                    }
+                    //OPENS NEXT IMAGE IF I HIT RIGHT ARROW
+                    if (event.key === "ArrowRight") {
+                        clickedID++;
+                        clickedID = loopInt(clickedID);
+                    }
+                    //CLOSE THE MODAL IF I HIT ESCAPE
+                    if (event.key === "Escape"){
+                        MODALLB.hide();
+                    }
+                })
+                MODALLB.show();
+            });
+        }
+
+        if(path != "/index.html"){
+            console.log("index");
             const MODALCONTACT = new bootstrap.Modal(document.getElementById("contactModal"), {keyboard: false});
             const SELECT_SORT  = document.getElementById("select-sort");
             // MATCHES FILES AND PHOTOGRAPHERS
-            if (path == "/pages/mimi.html") {
+            if (path === "/pages/mimi.html") {
                 photographer = photographers[0];
                 console.log("mimi");
             }
@@ -113,62 +167,6 @@ fetch('/media/data/photographers.json')
             arrayPhotos.forEach((item) => totalLikes += item.likes);
 
 
-            //############OPENS A FILLE IN THE LB############//
-            function openLb(clickedID) {
-                //REMOVES THE OLD MEDIA IF A NEW ONE IS ADDED
-                if (document.getElementById("img-lb") != undefined) {
-                    document.getElementById("img-lb").remove();
-                }
-                //ADDS AN IMAGE IF IT EXISTS IN THE ARRAY
-                if (arrayPhotos[clickedID].image != undefined) {
-                    let image = factory.makeDom("img","lb",clickedID);
-                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", image.dom);
-                //ADDS A VIDEO IF IT EXISTS IN THE ARRAY
-                } else {
-                    let video = factory.makeDom("vid","lb",clickedID);
-                    document.getElementById("button-left-lb").insertAdjacentHTML("afterend", video.dom);
-                }
-                console.log(clickedID);
-            }
-
-            //############OPENS THE RIGHT FILE DEPENTING ON INPUT ############//
-            function lightbox(i) {
-                document.getElementById("but-" + i).addEventListener("click", function(e) {
-                    let clickedID = i;
-                    openLb(clickedID);
-                    //OPENS NEXT IMAGE IF CLICK RIGHT BUTTON
-                    document.getElementById("button-right-lb").addEventListener("click", function() {
-                        clickedID++;
-                        clickedID = loopInt(clickedID);
-                    });
-                    //OPENS PREVIOUS IMAGE IF I CLICK THE LEFT BUTTON
-                    document.getElementById("button-left-lb").addEventListener("click", function() {
-                        clickedID--;
-                        clickedID = loopInt(clickedID);
-                    });
-                    document.getElementById("button-close-lb").addEventListener("click", function() {
-                        MODALLB.hide();
-                    });
-                    //LISTENS TO KEYSTROKES
-                    document.body.addEventListener("keydown", function(event) {
-                        //OPENS PREVIOUS IMAGE IF I HIT LEFT ARROW
-                        if (event.key === "ArrowLeft") {
-                            clickedID--;
-                            clickedID = loopInt(clickedID);
-                        }
-                        //OPENS NEXT IMAGE IF I HIT RIGHT ARROW
-                        if (event.key === "ArrowRight") {
-                            clickedID++;
-                            clickedID = loopInt(clickedID);
-                        }
-                        //CLOSE THE MODAL IF I HIT ESCAPE
-                        if (event.key === "Escape"){
-                            MODALLB.hide();
-                        }
-                    })
-                    MODALLB.show();
-                });
-            }
             for (let i = 0; i < 10; i++) {
                 let LIKES_BUTTON_ELEMENT = document.getElementById("photo-" + i + "-button-like");
                 let LIKES_ICON_ELEMENT = document.getElementById("photo-" + i + "-icon-like");
@@ -268,4 +266,4 @@ fetch('/media/data/photographers.json')
             }
         }
     }
-)
+);
