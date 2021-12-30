@@ -1,6 +1,6 @@
 "use strict";
 fetch("/media/data/photographers.json")
-    .then(response => {
+    .then((response) => {
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }
@@ -9,6 +9,7 @@ fetch("/media/data/photographers.json")
 
     .then((json) => {
         let photographers = json.photographers;
+        let photographer;
          //DEFINES THIS.DOM AS THE ELEMENT FOR AN IMAGE IN THE GALLERY
          const ImgGallery = function(i){
             this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\"id= \"photo-" + i + " \" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" >";
@@ -43,7 +44,7 @@ fetch("/media/data/photographers.json")
                 }
                 return dom;
             };
-        }
+        };
 
         let factory = new DomFactory();
 
@@ -52,7 +53,7 @@ fetch("/media/data/photographers.json")
         let arrayPhotos = [];
         let totalLikes = 0;
         let allLiked = [];
-        let photographer;
+
 
         function loopInt(clickedID){
             //SETS ID TO LAST IF TOO LOW
