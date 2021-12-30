@@ -8,6 +8,7 @@ fetch("/media/data/photographers.json")
     })
 
     .then((json) => {
+        let photographers = json.photographers;
          //DEFINES THIS.DOM AS THE ELEMENT FOR AN IMAGE IN THE GALLERY
          const ImgGallery = function(i){
             this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\"id= \"photo-" + i + " \" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" >";
@@ -45,7 +46,7 @@ fetch("/media/data/photographers.json")
         }
 
         let factory = new DomFactory();
-        let photographers = json.photographers;
+
         let media = json.media;
         let path = window.location.pathname;
         let arrayPhotos = [];
@@ -62,7 +63,6 @@ fetch("/media/data/photographers.json")
             if (clickedID > 9) {
                 clickedID = 0;
             }
-            console.log(clickedID);
             openLb(clickedID);
             return clickedID;
         }
@@ -95,11 +95,11 @@ fetch("/media/data/photographers.json")
         //############OPENS A FILLE IN THE LB############//
         function openLb(clickedID) {
             //REMOVES THE OLD MEDIA IF A NEW ONE IS ADDED
-            if (document.getElementById("img-lb") != undefined) {
+            if (document.getElementById("img-lb") !== undefined) {
                 document.getElementById("img-lb").remove();
             }
             //ADDS AN IMAGE IF IT EXISTS IN THE ARRAY
-            if (arrayPhotos[clickedID].image != undefined) {
+            if (arrayPhotos[clickedID].image !== undefined) {
                 let image = factory.makeDom("img","lb",clickedID);
                 document.getElementById("button-left-lb").insertAdjacentHTML("afterend", image.dom);
             //ADDS A VIDEO IF IT EXISTS IN THE ARRAY
@@ -107,11 +107,10 @@ fetch("/media/data/photographers.json")
                 let video = factory.makeDom("vid","lb",clickedID);
                 document.getElementById("button-left-lb").insertAdjacentHTML("afterend", video.dom);
             }
-            console.log(clickedID);
         }
         //############OPENS THE RIGHT FILE DEPENTING ON INPUT ############//
         function lightbox(i) {
-            const MODALLB      = new bootstrap.Modal(document.getElementById("modal-lb"), {keyboard: false});
+            const MODALLB = new bootstrap.Modal(document.getElementById("modal-lb"), {keyboard: false});
             document.getElementById("but-" + i).addEventListener("click", function() {
                 let clickedID = i;
                 openLb(clickedID);
@@ -149,14 +148,12 @@ fetch("/media/data/photographers.json")
             });
         }
 
-        if(path != "/index.html"){
-            console.log("index");
+        if(path !== "/index.html"){
             const MODALCONTACT = new bootstrap.Modal(document.getElementById("contactModal"), {keyboard: false});
             const SELECT_SORT  = document.getElementById("select-sort");
             // MATCHES FILES AND PHOTOGRAPHERS
             if (path === "/pages/mimi.html") {
                 photographer = photographers[0];
-                console.log("mimi");
             }
             // GETS ALL PHOTOS BY PHOTOGRAPHER
             for (var i = 0; i < media.length; i++) {
@@ -200,7 +197,7 @@ fetch("/media/data/photographers.json")
                     //IF SELECT SORT BY DATE
                     if (SELECT_SORT.selectedIndex === 1) {
                         arrayPhotos.sort((a, b) => {
-                            return a.date.replaceAll('-', '') - b.date.replaceAll('-', '');
+                            return a.date.replaceAll("-", "") - b.date.replaceAll("-", "");
                         });
                     }
                     //IF SELECT SORT BY NAME
@@ -250,7 +247,6 @@ fetch("/media/data/photographers.json")
             })
         }
         if(path === "/index.html"){
-            //console.log(photographers)
             for(let i = 0; i<6;i++){
                 let PHOTOGRAPHER_PORTRAIT = document.querySelector("#photographer-"+i+" img");
                 let PHOTOGRAPHER_NAME = document.querySelector("#photographer-"+i+" h2");
