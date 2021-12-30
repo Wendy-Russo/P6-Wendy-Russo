@@ -26,7 +26,6 @@
   background-color: #db8876;
 }
 
-
 /* ------GENERAL------ */
 
 :root {
@@ -59,8 +58,9 @@ img {
   margin: 0;
 }
 
-
-/* ------GENERAL-CLASSES------*/
+/*
+------GENERAL-CLASSES------
+*/
 
 .w-fit {
   width: fit-content;
@@ -78,8 +78,9 @@ img {
   color: white;
 }
 
-
-/* ------CUSTOM BOOTSTRAP------*/
+/*
+------CUSTOM BOOTSTRAP------
+*/
 
 .mx-auto {
   display: block;
@@ -90,6 +91,7 @@ img {
   margin: 0;
   padding: 0;
   margin-top: 0;
+
   --bs-gutter-y: 0;
 }
 
@@ -98,7 +100,9 @@ img {
   padding: 0;
 }
 
-/* ------NAVBAR------*/
+/*
+------NAVBAR------
+*/
 
 .navbar {
   padding: 3rem;
@@ -112,7 +116,9 @@ img {
   height: 50px;
 }
 
-/* ------SELECT-SORT------*/
+/*
+------SELECT-SORT------
+*/
 
 .select-sort {
   border-radius: 0.5rem;
@@ -127,7 +133,9 @@ img {
   padding: 5rem;
 }
 
-/*------PHOTOGRAPHES------*/
+/*
+------PHOTOGRAPHES------
+*/
 
 .sq200 {
   display: block;
@@ -157,7 +165,9 @@ img {
   --bs-gutter-y: 3rem;
 }
 
-/* ------TOTAL LIKES------*/
+/*
+------TOTAL LIKES------
+*/
 
 .likes-total-container {
   position: fixed;
@@ -186,7 +196,9 @@ img {
   font-weight: bold;
 }
 
-/*  -------PHOTOGRAPHER-PAGE------*/
+/*
+-------PHOTOGRAPHER-PAGE------
+*/
 
 .personal-fig {
   width: 350px;
@@ -209,8 +221,8 @@ img {
 }
 
 .button-img{
-width: 350px;
-height: 300px;
+  width: 350px;
+  height: 300px;
 }
 
 .row-photographer-info {
@@ -241,6 +253,10 @@ height: 300px;
   justify-content: center;
 }
 
+.modal-body button {
+  height: min-content;
+}
+
 #modal-lb button {
   border: none;
   background-color: white;
@@ -255,10 +271,6 @@ height: 300px;
 .modal-body {
   justify-content: center;
   align-items: center;
-  height: min-content;
-}
-
-.modal-body button {
   height: min-content;
 }
 
