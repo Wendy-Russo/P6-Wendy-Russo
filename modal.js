@@ -1,6 +1,6 @@
 "use strict";
 fetch("/media/data/photographers.json")
-    .then((response) => {
+    .then(response => {
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }
@@ -10,6 +10,39 @@ fetch("/media/data/photographers.json")
     .then((json) => {
         let photographers = json.photographers;
         let photographer;
+        let path = window.location.pathname;
+        let media = json.media;
+        let arrayPhotos = [];
+        let totalLikes = 0;
+        let allLiked = [];
+
+        // MATCHES FILES AND PHOTOGRAPHERS
+        photographer = photographers[0];
+        if (path === "/pages/mimi.html") {
+            photographer = photographers[0];
+        }
+        if (path === "/pages/ellie-rose.html") {
+            photographer = photographers[1];
+        }
+        if (path === "/pages/tracy.html") {
+            photographer = photographers[2];
+        }
+        if (path === "/pages/nabeel.html") {
+            photographer = photographers[3];
+        }
+        console.log(photographers)
+        if (path === "/pages/rhode.html") {
+            photographer = photographers[4];
+        }
+        if (path === "/pages/marcel.html") {
+            photographer = photographers[5];
+        }
+        // GETS ALL PHOTOS BY PHOTOGRAPHER
+        for (var i = 0; i < media.length; i++) {
+            if (media[i].photographerId === photographer.id) {
+                arrayPhotos.push(media[i]);
+        }}
+        console.log(arrayPhotos)
          //DEFINES THIS.DOM AS THE ELEMENT FOR AN IMAGE IN THE GALLERY
          const ImgGallery = function(i){
             this.dom = "<img src= \"" + photographer.folder + arrayPhotos[i].image + "\"id= \"photo-" + i + " \" tabindex=0 alt=\"" + arrayPhotos[i].title + "\" >";
@@ -48,13 +81,6 @@ fetch("/media/data/photographers.json")
 
         let factory = new DomFactory();
 
-        let media = json.media;
-        let path = window.location.pathname;
-        let arrayPhotos = [];
-        let totalLikes = 0;
-        let allLiked = [];
-
-
         function loopInt(clickedID){
             //SETS ID TO LAST IF TOO LOW
             if (clickedID < 0) {
@@ -69,13 +95,13 @@ fetch("/media/data/photographers.json")
         }
         //############ADDS-PHOTOS############//
         function addPhotos(i) {
-            //ADDS PHOTO IF IT EXISTS IN THE ARRAY
-            if (arrayPhotos[i].image !== undefined) {
+             //ADDS PHOTO IF IT EXISTS IN THE ARRAY
+            if (arrayPhotos[i] && arrayPhotos[i].image) {
                 let image = factory.makeDom("img","gallery",i);
                 document.getElementById("but-" + i).firstElementChild.insertAdjacentHTML("afterend", image.dom);
             }
             //ADDS VIDEO IF IT EXISTS IN THE ARRAY
-            if (arrayPhotos[i].video !== undefined) {
+            if (arrayPhotos[i] && arrayPhotos[i].video) {
                 let video = factory.makeDom("vid","gallery",i);
                 document.getElementById("but-" + i).firstElementChild.insertAdjacentHTML("afterend", video.dom);
             }
@@ -83,9 +109,11 @@ fetch("/media/data/photographers.json")
         }
         //############Sets-Likes-Title############//
         function setLikesTitle(i) {
-            document.getElementById("photo-" + i + "-likes").innerHTML = arrayPhotos[i].likes;
-            document.getElementById("photo-" + i + "-title").innerHTML = arrayPhotos[i].title;
-            document.getElementById("likes-total").innerHTML = totalLikes;
+            if(arrayPhotos[i]){
+                document.getElementById("photo-" + i + "-likes").innerHTML = arrayPhotos[i].likes;
+                document.getElementById("photo-" + i + "-title").innerHTML = arrayPhotos[i].title;
+                document.getElementById("likes-total").innerHTML = totalLikes;
+            }
         }
         //############SORTS-BY-LIKES############//
         function SortByLikes() {
@@ -96,11 +124,11 @@ fetch("/media/data/photographers.json")
         //############OPENS A FILLE IN THE LB############//
         function openLb(clickedID) {
             //REMOVES THE OLD MEDIA IF A NEW ONE IS ADDED
-            if (document.getElementById("img-lb") !== undefined) {
+            if (document.getElementById("img-lb")) {
                 document.getElementById("img-lb").remove();
             }
             //ADDS AN IMAGE IF IT EXISTS IN THE ARRAY
-            if (arrayPhotos[clickedID].image !== undefined) {
+            if (arrayPhotos[clickedID].image) {
                 let image = factory.makeDom("img","lb",clickedID);
                 document.getElementById("button-left-lb").insertAdjacentHTML("afterend", image.dom);
             //ADDS A VIDEO IF IT EXISTS IN THE ARRAY
@@ -152,36 +180,30 @@ fetch("/media/data/photographers.json")
         if(path !== "/index.html"){
             const MODALCONTACT = new bootstrap.Modal(document.getElementById("contactModal"), {keyboard: false});
             const SELECT_SORT  = document.getElementById("select-sort");
-            // MATCHES FILES AND PHOTOGRAPHERS
-            if (path === "/pages/mimi.html") {
-                photographer = photographers[0];
-            }
-            // GETS ALL PHOTOS BY PHOTOGRAPHER
-            for (var i = 0; i < media.length; i++) {
-                if (media[i].photographerId === photographer.id) {
-                    arrayPhotos.push(media[i]);
-            }}
+
             //CALCULATES TOTAL LIKES
             arrayPhotos.forEach((item) => totalLikes += item.likes);
 
 
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < arrayPhotos.length; i++) {
                 let LIKES_BUTTON_ELEMENT = document.getElementById("photo-" + i + "-button-like");
                 let LIKES_ICON_ELEMENT = document.getElementById("photo-" + i + "-icon-like");
                 //############LIKES-BUTTON############//
                 LIKES_BUTTON_ELEMENT.addEventListener('click', function() {
                     //IF ELEMENT IS ALREADY LIKED
-                    if (!allLiked.includes(arrayPhotos[i].title)) {
-                        LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
-                        arrayPhotos[i].likes ++, totalLikes++;
-                        allLiked.push(arrayPhotos[i].title);
-                        LIKES_BUTTON_ELEMENT.ariaLabel = "remove like";
-                    //IF ELEMENT IS NOT LIKED
-                    } else {
-                        LIKES_ICON_ELEMENT.setAttribute("class", "far fa-heart primary");
-                        arrayPhotos[i].likes--, totalLikes--;
-                        allLiked.splice(allLiked.indexOf(arrayPhotos[i].title), 1);
-                        LIKES_BUTTON_ELEMENT.ariaLabel = "add like";
+                    if(arrayPhotos[i]){
+                        if (!allLiked.includes(arrayPhotos[i].title)) {
+                            LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
+                            arrayPhotos[i].likes ++, totalLikes++;
+                            allLiked.push(arrayPhotos[i].title);
+                            LIKES_BUTTON_ELEMENT.ariaLabel = "remove like";
+                        //IF ELEMENT IS NOT LIKED
+                        } else {
+                            LIKES_ICON_ELEMENT.setAttribute("class", "far fa-heart primary");
+                            arrayPhotos[i].likes--, totalLikes--;
+                            allLiked.splice(allLiked.indexOf(arrayPhotos[i].title), 1);
+                            LIKES_BUTTON_ELEMENT.ariaLabel = "add like";
+                        }
                     }
                     setLikesTitle(i);
                 });
@@ -237,9 +259,10 @@ fetch("/media/data/photographers.json")
             document.getElementById("price").innerHTML = photographer.price + "€ / jour";
             //LOGS THE 3 FIELDS WHEN FORM IS SUBMITTED
             document.getElementById("contactForm").addEventListener("submit", function(e) {
-                console.log("Prénom : " + document.getElementById("fname").value + " Nom : " + document.getElementById("fname").value + " Email : " + document.getElementById("fname").value + " Message : " + document.getElementById("message").value);
+                console.log("Prénom : " + document.getElementById("fname").value + " Nom : " + document.getElementById("lname").value + " Email : " + document.getElementById("email").value + " Message : " + document.getElementById("message").value);
                 e.preventDefault();
             })
+            document.title = photographer.name;
             document.body.addEventListener("keydown", function(event) {
                 //CLOSE THE MODAL IF I HIT ESCAPE
                 if (event.key === "Escape"){
