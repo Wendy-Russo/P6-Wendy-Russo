@@ -1,0 +1,352 @@
+@import url("photographer.css");
+
+body {
+    font-family: "DM Sans", sans-serif;
+    margin: 0;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 90px;
+}
+
+h1 {
+    color: #901C1C;
+    margin-right: 100px;
+}
+
+.logo {
+    height: 50px;
+    margin-left: 100px;
+}
+
+.photographer_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 70px;
+    margin-top: 100px;
+}
+
+.photographer_section article {
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.photographer_section article h2 {
+    color: #D3573C;
+    font-size: 36px;
+}
+
+.photographer_section article img {
+    height: 200px;
+    width: 200px;
+}
+
+.rounded-circle {
+  object-fit: cover;
+}
+
+/*  ------COLORS------
+--primary-red: #901c1c ;
+--secondary: #D3573C ;
+--secondary-beige: #DB8876 ;
+--tertiary: #525252 ;
+--quaternary: #FAFAFA ;
+*/
+
+.primary {
+  color: #901c1c;
+}
+
+.secondary {
+  color: #d3573c;
+}
+
+.tertiary {
+  color: #525252;
+}
+
+.bg-quaternary {
+  background-color: #fafafa;
+}
+
+.bg-secondary-beige {
+  background-color: #db8876;
+}
+
+/* ------GENERAL------ */
+
+:root {
+  font-size: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  margin: 0;
+}
+
+* {
+  margin: 0;
+}
+
+/*
+------GENERAL-CLASSES------
+*/
+
+.w-fit {
+  width: fit-content;
+}
+
+.h-fit {
+  height: fit-content;
+}
+
+.bgr-primary {
+  background-color: #901c1c;
+}
+
+.white {
+  color: white;
+}
+
+/*
+------CUSTOM BOOTSTRAP------
+*/
+
+.mx-auto {
+  display: block;
+  margin: auto;
+}
+
+.row {
+  margin: 0;
+  padding: 0;
+  margin-top: 0;
+
+  --bs-gutter-y: 0;
+}
+
+.col {
+  margin: 0;
+  padding: 0;
+}
+
+/*
+------NAVBAR------
+*/
+
+.navbar {
+  padding: 3rem;
+}
+
+.navbar-nav {
+  justify-content: space-between;
+}
+
+.logo {
+  height: 50px;
+}
+
+/*
+------SELECT-SORT------
+*/
+
+.select-sort {
+  border-radius: 0.5rem;
+  margin: 2rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+}
+
+.select-sort p {
+  display: block;
+  width: 100px;
+  height: 200px;
+  padding: 5rem;
+}
+
+/*
+------PHOTOGRAPHES------
+*/
+
+.sq200 {
+  display: block;
+  width: 200px;
+  height: 200px;
+  box-shadow: rgba(0, 0, 0, 0.333) 0 0 1rem;
+}
+
+.rounded-circle {
+  object-fit: cover;
+}
+
+.p-city {
+  font-size: 1.2rem;
+}
+
+.p-slogan {
+  font-weight: bold;
+  color: black;
+}
+
+.img-logo {
+  width: 200px;
+}
+
+.home-fig {
+  --bs-gutter-y: 3rem;
+}
+
+/*
+------TOTAL LIKES------
+*/
+
+.likes-total-container {
+  position: fixed;
+  bottom: 0;
+  width: initial;
+  justify-content: flex-end;
+}
+
+.likes-total {
+  position: fixed;
+  width: 350px;
+  height: 50px;
+  border-radius: 0.5rem 0.5rem 0 0;
+  align-content: center;
+  bottom: 0;
+}
+
+.likes-total div {
+  align-items: center;
+  justify-content: center;
+}
+
+.likes-total div p {
+  font-size: 1.25rem;
+  margin: 0 0 0 0;
+  font-weight: bold;
+}
+
+/*
+-------PHOTOGRAPHER-PAGE------
+*/
+
+.personal-fig {
+  width: 350px;
+  height: 350px;
+  padding: 0;
+}
+
+.personal-fig figcaption {
+  height: 50px;
+  align-items: center;
+}
+
+.personal-fig img,
+.personal-fig video {
+  width: 100%;
+  height: 300px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  margin: auto auto auto auto;
+}
+
+.button-img {
+  width: 350px;
+  height: 300px;
+}
+
+.row-photographer-info {
+  align-items: center;
+  height: 313px;
+}
+
+.button-like {
+  border: 0;
+  background-color: white;
+}
+
+#modal-lb {
+  background-color: white;
+}
+
+#modal-lb-dialog {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.modal-content {
+  border: 0;
+  flex-direction: unset;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.modal-body button {
+  height: min-content;
+}
+
+#modal-lb button {
+  border: none;
+  background-color: white;
+}
+
+.modal-header {
+  width: 90%;
+  justify-content: flex-end;
+  border: white;
+}
+
+.modal-body {
+  justify-content: center;
+  align-items: center;
+  height: min-content;
+}
+
+.modal-footer {
+  width: 100%;
+  justify-content: center;
+  border: white;
+}
+
+#modal-lb em {
+  font-size: 3rem;
+}
+
+#img-lb {
+  height: 100%;
+  max-height: 87vh;
+  width: auto;
+  max-width: 80%;
+}
+
+.close {
+  position: fixed;
+  top: 2rem;
+  right: 3rem;
+}
