@@ -211,46 +211,7 @@ fetch("/media/data/photographers.json")
                 setLikesTitle(i);
                 addPhotos(i);
                 lightbox(i);
-                //############SORTING############//
-                SELECT_SORT.addEventListener('change', function() {
-                    //IF SELECT SORT BY POPULARITY
-                    if (SELECT_SORT.selectedIndex === 0) {
-                        SortByLikes();
-                    }
-                    //IF SELECT SORT BY DATE
-                    if (SELECT_SORT.selectedIndex === 1) {
-                        arrayPhotos.sort((a, b) => {
-                            return a.date.replaceAll("-", "") - b.date.replaceAll("-", "");
-                        });
-                    }
-                    //IF SELECT SORT BY NAME
-                    if (SELECT_SORT.selectedIndex === 2) {
-                        arrayPhotos.sort((a, b) => {
-                            //IF A IS ALPHABETICALLY FIRST
-                            if (a.title < b.title) {
-                                return -1;
-                            }
-                            //IF B IS ALPHABETICALLY FIRST
-                            if (a.title > b.title) {
-                                return 1;
-                            }
-                            return 0;
-                        });
-                    }
-                    //MOVES LIKES AFTER REFRESH
-                    //IF THIS ELEMENT WAS LIKED
-                    if (!allLiked.includes(arrayPhotos[i].title)){
-                        LIKES_ICON_ELEMENT.setAttribute("class", "far fa-heart primary");
-                        LIKES_BUTTON_ELEMENT.ariaLabel = "remove like";
-                    }
-                    //IF THIS ELEMENT WAS NOT LIKES
-                    else{
-                        LIKES_ICON_ELEMENT.setAttribute("class", "fas fa-heart primary");
-                        LIKES_BUTTON_ELEMENT.ariaLabel = "add like";
-                    }
-                    setLikesTitle(i);
-                    addPhotos(i);
-                });
+
             }
             document.getElementById("photographer-name").innerHTML = photographer.name;
             document.getElementById("city-country").innerHTML = photographer.city + ", " + photographer.country;

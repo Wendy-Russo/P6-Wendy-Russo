@@ -1,4 +1,4 @@
-@import url("photographer.css");
+
 
 body {
     font-family: "DM Sans", sans-serif;
@@ -237,6 +237,7 @@ img {
   border-radius: 0.5rem 0.5rem 0 0;
   align-content: center;
   bottom: 0;
+  right: 0;
 }
 
 .likes-total div {
@@ -253,11 +254,22 @@ img {
 /*
 -------PHOTOGRAPHER-PAGE------
 */
+figcaption{
+  width: 97%;
+  margin: auto;
+
+}
+figcaption p{
+  margin: 0;
+  padding: 0;
+}
 
 .personal-fig {
-  width: 350px;
   height: 350px;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .personal-fig figcaption {
@@ -275,7 +287,7 @@ img {
 }
 
 .button-img {
-  width: 350px;
+  width: 100%;
   height: 300px;
 }
 
@@ -334,7 +346,7 @@ img {
   border: white;
 }
 
-#modal-lb em {
+#modal-lb  {
   font-size: 3rem;
 }
 
