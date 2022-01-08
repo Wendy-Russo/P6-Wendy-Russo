@@ -1,22 +1,6 @@
-const modal = document.getElementById("contact_modal");
-function displayModal() {
-	modal.style.display = "block";
-}
-
-function closeModal() {
-    modal.style.display = "none";
-}
-
 function modalFunction(){
-    const modal = document.getElementById("contact_modal");
-    const contactButton = document.getElementById("contact_button");
-    contactButton.addEventListener("click",function(){
-        console.log(modal)
-        if(modal.style.display = "none"){
-            modal.style.display = "block";
-        }
-        else{
-            modal.style.display = "none";
-        };
-    })
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+        console.log("Prénom : " + document.getElementById("fname").value + " Nom : " + document.getElementById("lname").value + " Email : " + document.getElementById("email").value + " Message : " + document.getElementById("message").value);
+        e.preventDefault();
+    });
 }

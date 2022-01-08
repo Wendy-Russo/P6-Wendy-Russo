@@ -30,7 +30,7 @@ function photographerFactory(data) {
                     </div>
                 </div>
                 <div class="col-4">
-                    <button aria-label="open contact form" id="contact_button" class=" btn-primary bgr-primary btn-lg mx-auto" data-bs-toggle="modal">
+                    <button aria-label="open contact form" id="contact_button" class=" btn-primary bgr-primary btn-lg mx-auto" data-bs-toggle="modal" data-bs-target="#contactModal">
                         Contactez-moi
                     </button>
                 </div>
@@ -76,7 +76,46 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-    return { name, picture, getUserCardDOM,getHeaderDom,getSelectDOM,getTotalLikesDOM }
+        function getContactModalDOM(){//THE TOTAL LIKES DIV AT THE BOTTOM
+            let article = `
+            <div class="modal fade" id="contactModal" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-secondary-beige">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h2 class="modal-title">Modal Heading</h2>
+                            <button aria-label="close concact form" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form id="contactForm">
+                                <div class="mb-3">
+                                    <label for="fname" class="form-label">Prénom</label>
+                                    <input type="text" class="form-control" id="fname" name="fname">
+                                </input></div>
+                                <div class="mb-3">
+                                    <label for="lname" class="form-label">Nom</label>
+                                    <input type="text" class="form-control" id="lname" name="lname">
+                                </input></div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </input></div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Votre message</label>
+                                    <textarea rows="5" class="form-control" id="message" name="message"></textarea>
+                                </div>
+                                <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+            let dom = new DOMParser().parseFromString(article,"text/html");
+            return(dom.body.firstChild);
+        }
+    return { name, picture, getUserCardDOM,getHeaderDom,getSelectDOM,getTotalLikesDOM, getContactModalDOM }
     }
     if(data.title){//IF I AM PASSING PHOTOS DATA
         const { title, image,video,likes} = data;

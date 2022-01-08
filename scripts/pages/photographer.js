@@ -39,14 +39,22 @@ fetch("../data/photographers.json")
         if(window.location.pathname === "/photographe.html"){
             //ADDS HEADER SELECT AND TOTAL LIKES SECTION FROM THE FACTORY
             async function displayData() {
+                //ADDS
                 const photographerModel = photographerFactory(photographer);
                 const photographersSection = document.querySelector(".gallery_section");
+
                 const headerDOM = photographerModel.getHeaderDom();
                 document.querySelector(".photograph-header").replaceWith(headerDOM);
+
                 const selectDOM = photographerModel.getSelectDOM();
-                const totalLikesDOM = photographerModel.getTotalLikesDOM();
                 photographersSection.insertAdjacentElement("afterbegin",selectDOM);
-                photographersSection.lastElementChild.insertAdjacentElement("afterend",totalLikesDOM)
+
+                const totalLikesDOM = photographerModel.getTotalLikesDOM();
+                photographersSection.lastElementChild.insertAdjacentElement("afterend",totalLikesDOM);
+
+                const contactModalDOM = photographerModel.getContactModalDOM();
+                document.getElementById("main" ).insertAdjacentElement("afterend",contactModalDOM);
+
             };
             //ADDS REMOVES EVERY GALLERY FIGURE AND RE ADDS THEM + LIKES TOGGLE
             function refreshallery(){
