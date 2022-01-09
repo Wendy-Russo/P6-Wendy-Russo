@@ -152,10 +152,10 @@ function photographerFactory(data) {
         function getGalleryDom(){//GALLERY ELEMENT
             let imgElement;
             if(video){//SWITCHES BETWEEN PHOTO AND VIDEO
-                imgElement = `<video tabindex=0 src="assets/images/${foldername}/${video}"></video>`;
+                imgElement = `<video tabindex=0 src="assets/images/${foldername}/${video}" class="media"></video>`;
             }
             else{
-                imgElement = `<img src="assets/images/${foldername}/${image}" class="img-fluid" alt="">`;
+                imgElement = `<img src="assets/images/${foldername}/${image}" class="img-fluid media" alt="">`;
             }
             let article = `
             <figure class="col-4 personal-fig">

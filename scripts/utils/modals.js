@@ -4,54 +4,55 @@ function modalFunction(){
         e.preventDefault();
     });
 }
-function lightboxFunction(){
-    const imageLink = document.getElementsByClassName("button-img");
-    const MODALLB = new bootstrap.Modal(document.getElementById("modal-lb"), {keyboard: false});
-    Array.prototype.forEach.call(imageLink,function(imageLink){
-        imageLink.addEventListener("click",function(){
-            let media = imageLink.firstElementChild;
-            media.setAttribute("class",'col-10')
-            document.getElementById("button-left-lb").insertAdjacentElement("afterend",media);
-            MODALLB.show();
 
-        });
-    });
-    /* const MODALLB = new bootstrap.Modal(document.getElementById("modal-lb"), {keyboard: false});
-    document.getElementById("but-").addEventListener("click", function() {
-        let clickedID = 1;
-        openLb(clickedID);
-        //OPENS NEXT IMAGE IF CLICK RIGHT BUTTON
-        document.getElementById("button-right-lb").addEventListener("click", function() {
-            clickedID++;
-            clickedID = loopInt(clickedID);
-        });
-        //OPENS PREVIOUS IMAGE IF I CLICK THE LEFT BUTTON
-        document.getElementById("button-left-lb").addEventListener("click", function() {
-            clickedID--;
-            clickedID = loopInt(clickedID);
-        });
-        document.getElementById("button-close-lb").addEventListener("click", function() {
-            MODALLB.hide();
-        });
-        //LISTENS TO KEYSTROKES
-        document.body.addEventListener("keydown", function(event) {
-            //OPENS PREVIOUS IMAGE IF I HIT LEFT ARROW
-            if (event.key === "ArrowLeft") {
-                clickedID--;
-                clickedID = loopInt(clickedID);
-            }
-            //OPENS NEXT IMAGE IF I HIT RIGHT ARROW
-            if (event.key === "ArrowRight") {
-                clickedID++;
-                clickedID = loopInt(clickedID);
-            }
-            //CLOSE THE MODAL IF I HIT ESCAPE
-            if (event.key === "Escape"){
-                MODALLB.hide();
-            }
+function lightboxFunction(){
+    const MODALLB = new bootstrap.Modal(document.getElementById("modal-lb"), {keyboard: false});
+    const imageLink = Array.from(document.getElementsByClassName("button-img"));
+    const medias = Array.from(document.getElementsByClassName("media"));
+    const leftButton  = document.getElementById("button-left-lb");
+    const rightButton = document.getElementById("button-right-lb");
+    let closeButton = document.getElementById("button-close-lb");
+    for(let i = 0 ; i < imageLink.length;i++){
+        imageLink[i].addEventListener("click",function(e){
+            let clickedID = i;
+            let media = medias[i].cloneNode();
+            media.setAttribute("class",'col-10');
+            if(leftButton.nextElementSibling.nodeName != "BUTTON"){
+                leftButton.nextElementSibling.remove();
+            };
+            leftButton.insertAdjacentElement("afterend",media);
+            MODALLB.show();
+            //console.log(imageLink[i].firstElementChild)
+            //console.log(media)
+            rightButton.addEventListener("click",function(){
+                clickedID+=1
+                if(clickedID > medias.length-1){
+                    clickedID = 0;
+                };
+                media = medias[clickedID].cloneNode();
+                media.setAttribute("class",'col-10');
+                if(leftButton.nextElementSibling){
+                    leftButton.nextElementSibling.remove();
+                }
+                leftButton.insertAdjacentElement("afterend",media);
+            })
+            leftButton.addEventListener("click",function(){
+                clickedID-=1
+                if(clickedID < 0){
+                    clickedID = medias.length-1;
+                };
+                media = medias[clickedID].cloneNode();
+                media.setAttribute("class",'col-10');
+                if(leftButton.nextElementSibling){
+                    leftButton.nextElementSibling.remove();
+                };
+                leftButton.insertAdjacentElement("afterend",media);
+            })
         })
-        MODALLB.show();
-    }); */
+    }
+    document.getElementById("button-close-lb").addEventListener("click",function(){
+        MODALLB.hide()
+    })
 }
 function openLb(clickedID) {
     //REMOVES THE OLD MEDIA IF A NEW ONE IS ADDED
