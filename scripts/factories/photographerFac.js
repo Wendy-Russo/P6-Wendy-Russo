@@ -60,7 +60,7 @@ function photographerFactory(data) {
             return(dom.body.firstChild);
         }
     }
-
+    //THE TOTAL LIKES DIV AT THE BOTTOM
     function getTotalLikesDOM(){
         if(data.city){
             const {price } = data;
@@ -126,7 +126,7 @@ function photographerFactory(data) {
             return(dom.body.firstChild);
         }
     }
-    //THE TOTAL LIKES DIV AT THE BOTTOM
+    //-----------------------GALLERY ELEMENT
     function getLightboxDOM(){
         if(data.city){
             let article = `
@@ -155,7 +155,7 @@ function photographerFactory(data) {
             return(dom.body.firstChild);
         }
     }
-    //-----------------------GALLERY ELEMENT
+    //GALLERY ELEMENT  FOR EACH MEDIA (USE A LOOP)
     function getGalleryDom(){
         if(data.title){
             const { title, image,video,likes} = data;

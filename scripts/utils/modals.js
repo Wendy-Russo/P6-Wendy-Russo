@@ -40,12 +40,12 @@ function lightboxFunction(){
                 clickedID-=1
                 if(clickedID < 0){
                     clickedID = medias.length-1;
-                };
+                }
                 media = medias[clickedID].cloneNode();
                 media.setAttribute("class",'col-10');
                 if(leftButton.nextElementSibling){
                     leftButton.nextElementSibling.remove();
-                };
+                }
                 leftButton.insertAdjacentElement("afterend",media);
             })
         })

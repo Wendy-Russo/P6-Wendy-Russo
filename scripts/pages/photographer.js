@@ -130,6 +130,6 @@ fetch("../data/photographers.json")
                 }
                 refreshallery();
             });
-        };
+        }
     }
 );
