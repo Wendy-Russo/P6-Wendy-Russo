@@ -2,7 +2,7 @@
 let photographer
 
 fetch("../data/photographers.json")
-    .then(response => {
+    .then((response) => {
         if (!response.ok) {
             throw new Error("HTTP error " + response.status);
         }
@@ -14,9 +14,9 @@ fetch("../data/photographers.json")
         if(window.location.pathname === "/"){
             displayData(photographers);
         }
-        document.querySelectorAll(".home-fig").forEach(figure => {
+        document.querySelectorAll(".home-fig").forEach((figure) => {
             figure.addEventListener("click",function(){
-                photographers.forEach(photographer => {
+                photographers.forEach((photographer) => {
                     if(photographer.name === figure.firstElementChild.lastElementChild.innerHTML){
                         clickedName = photographer.name;
                         localStorage.setItem("photographerName",clickedName);
