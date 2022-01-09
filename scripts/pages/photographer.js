@@ -39,22 +39,23 @@ fetch("../data/photographers.json")
         if(window.location.pathname === "/photographe.html"){
             //ADDS HEADER SELECT AND TOTAL LIKES SECTION FROM THE FACTORY
             async function displayData() {
-                //ADDS
                 const photographerModel = photographerFactory(photographer);
                 const photographersSection = document.querySelector(".gallery_section");
-
+                //ADDS THE HEADER
                 const headerDOM = photographerModel.getHeaderDom();
                 document.querySelector(".photograph-header").replaceWith(headerDOM);
-
+                //ADDS THE SELECT
                 const selectDOM = photographerModel.getSelectDOM();
                 photographersSection.insertAdjacentElement("afterbegin",selectDOM);
-
+                //ADDS THE TOTAL LIKES
                 const totalLikesDOM = photographerModel.getTotalLikesDOM();
                 photographersSection.lastElementChild.insertAdjacentElement("afterend",totalLikesDOM);
-
+                //ADDS THE CONTACT MODAL
                 const contactModalDOM = photographerModel.getContactModalDOM();
                 document.getElementById("main" ).insertAdjacentElement("afterend",contactModalDOM);
-
+                //ADDS THE LIGHTBOX MODAL
+                const lightboxModalDom = photographerModel.getLightboxDOM();
+                document.getElementById("contactModal").insertAdjacentElement("afterend",lightboxModalDom);
             };
             //ADDS REMOVES EVERY GALLERY FIGURE AND RE ADDS THEM + LIKES TOGGLE
             function refreshallery(){
@@ -98,6 +99,7 @@ fetch("../data/photographers.json")
             displayData();
             refreshallery();
             modalFunction();
+            lightboxFunction();
 
             //############SORTING############//
             document.getElementById("select-sort").addEventListener('change', function() {

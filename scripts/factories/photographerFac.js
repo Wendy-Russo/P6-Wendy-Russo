@@ -115,7 +115,34 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-    return { name, picture, getUserCardDOM,getHeaderDom,getSelectDOM,getTotalLikesDOM, getContactModalDOM }
+        function getLightboxDOM(){//THE TOTAL LIKES DIV AT THE BOTTOM
+            let img;
+            let article = `
+            <div class="modal fade" id="modal-lb">
+                    <div class="modal-dialog modal-xl" id="modal-lb-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header p-0">
+                                <button aria-label="close image" id="button-close-lb" class="close primary" data-dismiss="modal">
+                                        <em class="fas fa-times" aria-hidden="true"></em>
+                                    </button>
+                            </div>
+                            <div class="modal-body row">
+                                <button aria-label="previous image" id="button-left-lb" class="col-1 primary">
+                                        <em class="fas fa-angle-left" aria-hidden="true"></em>
+                                    </button>
+                                <button aria-label="next image" id="button-right-lb" class="col-1 primary">
+                                        <em class="fas fa-angle-right" aria-hidden="true"></em>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            let dom = new DOMParser().parseFromString(article,"text/html");
+            return(dom.body.firstChild);
+        }
+    return { name, picture, getUserCardDOM,getHeaderDom,getSelectDOM,getTotalLikesDOM, getContactModalDOM, getLightboxDOM }
     }
     if(data.title){//IF I AM PASSING PHOTOS DATA
         const { title, image,video,likes} = data;
