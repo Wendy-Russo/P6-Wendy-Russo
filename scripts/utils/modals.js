@@ -1,5 +1,6 @@
 function modalFunction(){
     document.getElementById("contactForm").addEventListener("submit", function(e) {
+
         console.log("Prénom : " + document.getElementById("fname").value + " Nom : " + document.getElementById("lname").value + " Email : " + document.getElementById("email").value + " Message : " + document.getElementById("message").value);
         e.preventDefault();
     });
@@ -11,7 +12,6 @@ function lightboxFunction(){
     const medias = Array.from(document.getElementsByClassName("media"));
     const leftButton  = document.getElementById("button-left-lb");
     const rightButton = document.getElementById("button-right-lb");
-    let closeButton = document.getElementById("button-close-lb");
     for(let i = 0 ; i < imageLink.length;i++){
         imageLink[i].addEventListener("click",function(e){
             let clickedID = i;
@@ -19,7 +19,7 @@ function lightboxFunction(){
             media.setAttribute("class",'col-10');
             if(leftButton.nextElementSibling.nodeName != "BUTTON"){
                 leftButton.nextElementSibling.remove();
-            };
+            }
             leftButton.insertAdjacentElement("afterend",media);
             MODALLB.show();
             //console.log(imageLink[i].firstElementChild)

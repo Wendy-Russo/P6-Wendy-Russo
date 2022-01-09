@@ -21,7 +21,7 @@ fetch("../data/photographers.json")
                         clickedName = photographer.name;
                         localStorage.setItem("photographerName",clickedName);
                         console.log(clickedName)
-                    };
+                    }
                 });
             });
         });

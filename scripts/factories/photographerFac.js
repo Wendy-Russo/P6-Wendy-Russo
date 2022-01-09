@@ -1,14 +1,13 @@
 function photographerFactory(data) {
-    if(data.city){//IF I AM PASSING PHOTOGRAPHER DATA
-        const { name, portrait,city,country,tagline,price } = data;
-        const foldername = name.replace(/ .*/,'');
-        const picture = `assets/images/photographers-id-photos/${portrait}`;
-
-        function getUserCardDOM() {//THE INDEX PHOTOGRAPHER CARDS
+    //IF I AM PASSING PHOTOGRAPHER DATA
+    //THE INDEX PHOTOGRAPHER CARDS
+    function getUserCardDOM() {
+        if(data.city){
+            const { name, portrait,city,country,tagline,price } = data;
             let article = `
             <article class="home-fig">
                 <a href="/photographe.html" class="link-photographer">
-                    <img src="assets/images/photographers-id-photos/${portrait}" class="rounded-circle sq200 img-fluid mx-auto">
+                    <img src="assets/images/photographers-id-photos/${portrait}" alt="${name}" class="rounded-circle sq200 img-fluid mx-auto">
                     <h2 class"class="text-center secondary">${name}</h2>
                 </a>
                 <p class="text-center p-city primary">${city}, ${country}</p>
@@ -18,8 +17,11 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-
-        function getHeaderDom(){//PHOTOGRAPHER HEADER
+    }
+    //PHOTOGRAPHER HEADER
+    function getHeaderDom(){
+        if(data.city){
+            const { name, portrait,city,country,tagline} = data;
             let article = `
             <section class="row row-photographer-info bg-quaternary">
                 <div class="col-4">
@@ -35,14 +37,16 @@ function photographerFactory(data) {
                     </button>
                 </div>
                 <div class="col-4">
-                    <img src="assets/images/photographers-id-photos/${portrait}" class="rounded-circle sq200 mx-auto" ></img>
+                    <img src="assets/images/photographers-id-photos/${portrait}" alt="${name}" class="rounded-circle sq200 mx-auto" ></img>
                 </div>
             </section>`;
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-
-        function getSelectDOM() {//WHERE YOU SELECT THE SORT ORDER
+    }
+    //WHERE YOU SELECT THE SORT ORDER
+    function getSelectDOM() {
+        if(data.city){
             let article = `
             <div class="col-12">
                 <label for="select-sort">Trier par</label>
@@ -55,8 +59,11 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
+    }
 
-        function getTotalLikesDOM(){//THE TOTAL LIKES DIV AT THE BOTTOM
+    function getTotalLikesDOM(){
+        if(data.city){
+            const {price } = data;
             let totalLikes = localStorage.getItem("totalLikes");
             let article = `
             <div class="justify-content-end">
@@ -76,7 +83,10 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-        function getContactModalDOM(){//THE TOTAL LIKES DIV AT THE BOTTOM
+    }
+    //THE TOTAL LIKES DIV AT THE BOTTOM
+    function getContactModalDOM(){
+        if(data.city){
             let article = `
             <div class="modal fade" id="contactModal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog">
@@ -115,8 +125,10 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-        function getLightboxDOM(){//THE TOTAL LIKES DIV AT THE BOTTOM
-            let img;
+    }
+    //THE TOTAL LIKES DIV AT THE BOTTOM
+    function getLightboxDOM(){
+        if(data.city){
             let article = `
             <div class="modal fade" id="modal-lb">
                     <div class="modal-dialog modal-xl" id="modal-lb-dialog">
@@ -142,24 +154,24 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-    return { name, picture, getUserCardDOM,getHeaderDom,getSelectDOM,getTotalLikesDOM, getContactModalDOM, getLightboxDOM }
     }
-    if(data.title){//IF I AM PASSING PHOTOS DATA
-        const { title, image,video,likes} = data;
-        let photographerName = localStorage.getItem("photographerName");
-        const foldername = photographerName.replace(/ .*/,'');
+    //-----------------------GALLERY ELEMENT
+    function getGalleryDom(){
+        if(data.title){
+            const { title, image,video,likes} = data;
+            let photographerName = localStorage.getItem("photographerName");
+            const foldername = photographerName.replace(/ .*/,'');
 
-        function getGalleryDom(){//GALLERY ELEMENT
             let imgElement;
             if(video){//SWITCHES BETWEEN PHOTO AND VIDEO
-                imgElement = `<video tabindex=0 src="assets/images/${foldername}/${video}" class="media"></video>`;
+                imgElement = `<video tabindex=0 src="assets/images/${foldername}/${video}" alt="${title}" class="media"></video>`;
             }
             else{
-                imgElement = `<img src="assets/images/${foldername}/${image}" class="img-fluid media" alt="">`;
+                imgElement = `<img src="assets/images/${foldername}/${image}" alt="${title}" class="img-fluid media" alt="">`;
             }
             let article = `
             <figure class="col-4 personal-fig">
-                <a href="#" aria-label="open-image-fullscreen" class="p-0 button-like primary button-img">
+                <a href="#" title="${title}" aria-label="open-image-fullscreen" class="p-0 button-like primary button-img">
                     ${imgElement}
                 </a>
                 <figcaption class="row h-fit">
@@ -173,6 +185,6 @@ function photographerFactory(data) {
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
-        return {title,image,likes,getGalleryDom }
     }
+    return {getGalleryDom,getUserCardDOM,getHeaderDom,getSelectDOM,getTotalLikesDOM, getContactModalDOM, getLightboxDOM }
 }
