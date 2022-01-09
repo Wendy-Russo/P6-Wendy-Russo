@@ -28,7 +28,7 @@ function lightboxFunction(){
                 clickedID+=1
                 if(clickedID > medias.length-1){
                     clickedID = 0;
-                };
+                }
                 media = medias[clickedID].cloneNode();
                 media.setAttribute("class",'col-10');
                 if(leftButton.nextElementSibling){

@@ -20,7 +20,6 @@ fetch("../data/photographers.json")
                     if(photographer.name === figure.firstElementChild.lastElementChild.innerHTML){
                         clickedName = photographer.name;
                         localStorage.setItem("photographerName",clickedName);
-                        console.log(clickedName)
                     }
                 });
             });
@@ -36,4 +35,4 @@ async function displayData(photographers) {
         const userCardDOM = photographerModel.getUserCardDOM();
         photographersSection.appendChild(userCardDOM);
     });
-};
+}

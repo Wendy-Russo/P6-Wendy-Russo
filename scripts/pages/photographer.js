@@ -36,64 +36,65 @@ fetch("../data/photographers.json")
         }
         calcTotalLikes();
 
+        //ADDS HEADER SELECT AND TOTAL LIKES SECTION FROM THE FACTORY
+        async function displayData() {
+            const photographerModel = photographerFactory(photographer);
+            const photographersSection = document.querySelector(".gallery_section");
+            //ADDS THE HEADER
+            const headerDOM = photographerModel.getHeaderDom();
+            document.querySelector(".photograph-header").replaceWith(headerDOM);
+            //ADDS THE SELECT
+            const selectDOM = photographerModel.getSelectDOM();
+            photographersSection.insertAdjacentElement("afterbegin",selectDOM);
+            //ADDS THE TOTAL LIKES
+            const totalLikesDOM = photographerModel.getTotalLikesDOM();
+            photographersSection.lastElementChild.insertAdjacentElement("afterend",totalLikesDOM);
+            //ADDS THE CONTACT MODAL
+            const contactModalDOM = photographerModel.getContactModalDOM();
+            document.getElementById("main" ).insertAdjacentElement("afterend",contactModalDOM);
+            //ADDS THE LIGHTBOX MODAL
+            const lightboxModalDom = photographerModel.getLightboxDOM();
+            document.getElementById("contactModal").insertAdjacentElement("afterend",lightboxModalDom);
+        }
+        //ADDS REMOVES EVERY GALLERY FIGURE AND RE ADDS THEM + LIKES TOGGLE
+        function refreshallery(){
+            const photographersSection = document.querySelector(".gallery_section");
+            while(document.querySelector(".personal-fig")){
+                document.querySelector(".personal-fig").remove();
+            }
+            photos.forEach((photo) => {
+                let photographerModel = photographerFactory(photo);
+                const userCardDOM = photographerModel.getGalleryDom();
+                photographersSection.appendChild(userCardDOM);
+                let likedDOM = userCardDOM.lastElementChild.firstElementChild.nextElementSibling;
+                let heartButtonDOM = userCardDOM.lastElementChild.lastElementChild;
+                let heartIconDOM = heartButtonDOM.firstElementChild;
+                let totalLikesDOM = document.getElementById("likes-total");
+                calcTotalLikes();
+                totalLikesDOM.innerHTML = totalLikes;
+                //TOGGLES LIKES TOTAL LIKES AND ICONS
+                heartButtonDOM.addEventListener("click",function(){
+                    if(parseInt(likedDOM.innerHTML) === photo.likes){
+                        likedDOM.innerHTML = photo.likes + 1;
+                        heartIconDOM.setAttribute("class","fas fa-heart primary")
+                        totalLikesDOM.innerHTML = totalLikes += 1;
+                    }
+                    else{
+                        likedDOM.innerHTML = photo.likes;
+                        heartIconDOM.setAttribute("class","far fa-heart primary");
+                        totalLikesDOM.innerHTML = totalLikes -= 1;
+                    }
+                });
+            });
+        }
+        //SORTS BY LIKES
+        function SortByLikes() {
+            photos.sort((a, b) => {
+                return b.likes - a.likes;
+            });
+        }
+
         if(window.location.pathname === "/photographe.html"){
-            //ADDS HEADER SELECT AND TOTAL LIKES SECTION FROM THE FACTORY
-            async function displayData() {
-                const photographerModel = photographerFactory(photographer);
-                const photographersSection = document.querySelector(".gallery_section");
-                //ADDS THE HEADER
-                const headerDOM = photographerModel.getHeaderDom();
-                document.querySelector(".photograph-header").replaceWith(headerDOM);
-                //ADDS THE SELECT
-                const selectDOM = photographerModel.getSelectDOM();
-                photographersSection.insertAdjacentElement("afterbegin",selectDOM);
-                //ADDS THE TOTAL LIKES
-                const totalLikesDOM = photographerModel.getTotalLikesDOM();
-                photographersSection.lastElementChild.insertAdjacentElement("afterend",totalLikesDOM);
-                //ADDS THE CONTACT MODAL
-                const contactModalDOM = photographerModel.getContactModalDOM();
-                document.getElementById("main" ).insertAdjacentElement("afterend",contactModalDOM);
-                //ADDS THE LIGHTBOX MODAL
-                const lightboxModalDom = photographerModel.getLightboxDOM();
-                document.getElementById("contactModal").insertAdjacentElement("afterend",lightboxModalDom);
-            };
-            //ADDS REMOVES EVERY GALLERY FIGURE AND RE ADDS THEM + LIKES TOGGLE
-            function refreshallery(){
-                const photographersSection = document.querySelector(".gallery_section");
-                while(document.querySelector(".personal-fig")){
-                    document.querySelector(".personal-fig").remove();
-                }
-                photos.forEach((photo) => {
-                    let photographerModel = photographerFactory(photo);
-                    const userCardDOM = photographerModel.getGalleryDom();
-                    photographersSection.appendChild(userCardDOM);
-                    let likedDOM = userCardDOM.lastElementChild.firstElementChild.nextElementSibling;
-                    let heartButtonDOM = userCardDOM.lastElementChild.lastElementChild;
-                    let heartIconDOM = heartButtonDOM.firstElementChild;
-                    let totalLikesDOM = document.getElementById("likes-total");
-                    calcTotalLikes();
-                    totalLikesDOM.innerHTML = totalLikes;
-                    //TOGGLES LIKES TOTAL LIKES AND ICONS
-                    heartButtonDOM.addEventListener("click",function(){
-                        if(parseInt(likedDOM.innerHTML) === photo.likes){
-                            likedDOM.innerHTML = photo.likes + 1;
-                            heartIconDOM.setAttribute("class","fas fa-heart primary")
-                            totalLikesDOM.innerHTML = totalLikes += 1;
-                        }
-                        else{
-                            likedDOM.innerHTML = photo.likes;
-                            heartIconDOM.setAttribute("class","far fa-heart primary");
-                            totalLikesDOM.innerHTML = totalLikes -= 1;
-                        }
-                    });
-                });
-            }
-            //SORTS BY LIKES
-            function SortByLikes() {
-                photos.sort((a, b) => {
-                    return b.likes - a.likes;
-                });
-            }
 
             SortByLikes();
             displayData();
