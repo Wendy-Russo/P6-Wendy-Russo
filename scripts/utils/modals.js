@@ -25,8 +25,6 @@ function modalFunction(){
         validateBool = validateInput("email"  ,"emaillabel",mailPattern,validateBool,"Error, invalid email");
         validateBool = validateInput("message","messagelabel",wordPattern,validateBool,"Error, invalid message");
         document.getElementById("email").setAttribute("type","email");
-        console.log(validateBool);
-        console.log(document.getElementById("message").value);
         if(validateBool){
             console.log("Prénom : " + document.getElementById("fname").value + " Nom : " + document.getElementById("lname").value + " Email : " + document.getElementById("email").value + " Message : " + document.getElementById("message").value);
             document.getElementById("submitButton").setAttribute("aria-label","")
@@ -57,8 +55,6 @@ function lightboxFunction(){
             }
             leftButton.insertAdjacentElement("afterend",media);
             MODALLB.show();
-            //console.log(imageLink[i].firstElementChild)
-            //console.log(media)
             rightButton.addEventListener("click",function(){
                 clickedID+=1
                 if(clickedID > medias.length-1){
