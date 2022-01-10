@@ -48,14 +48,14 @@ function photographerFactory(data) {
     function getSelectDOM() {
         if(data.city){
             let article = `
-            <div class="col-12">
+            <section class="col-12">
                 <label for="select-sort">Trier par</label>
                 <select name="select-sort" id="select-sort" class="bgr-primary white select-sort">
                     <option value="Popularité">Popularité</option>
                     <option value="Date">Date</option>
                     <option value="Titre">Titre</option>
                 </select>
-            </div>`;
+            </section>`;
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
