@@ -66,7 +66,7 @@ function photographerFactory(data) {
             const {price } = data;
             let totalLikes = localStorage.getItem("totalLikes");
             let article = `
-            <div class="justify-content-end">
+            <section class="justify-content-end">
                 <div class="likes-total row bg-secondary-beige">
                     <div class="col-6 d-flex">
                         <p id="likes-total">${totalLikes}</p>
@@ -78,7 +78,7 @@ function photographerFactory(data) {
                         <p id="price">${price} €/jour</p>
                     </div>
                 </div>
-            </div>
+            </section>
             `;
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
@@ -88,7 +88,7 @@ function photographerFactory(data) {
     function getContactModalDOM(){
         if(data.city){
             let article = `
-            <div class="modal fade" id="contactModal" style="display: none;" aria-hidden="true">
+            <section class="modal fade" id="contactModal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content bg-secondary-beige">
                         <!-- Modal Header -->
@@ -120,7 +120,7 @@ function photographerFactory(data) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
             `;
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
@@ -130,7 +130,7 @@ function photographerFactory(data) {
     function getLightboxDOM(){
         if(data.city){
             let article = `
-            <div class="modal fade" id="modal-lb">
+            <section class="modal fade" id="modal-lb">
                     <div class="modal-dialog modal-xl" id="modal-lb-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
@@ -149,7 +149,7 @@ function photographerFactory(data) {
                             </div>
                         </div>
                     </div>
-                </div>
+                </section>
             `;
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
