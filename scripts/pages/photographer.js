@@ -76,13 +76,15 @@ fetch("../data/photographers.json")
                 heartButtonDOM.addEventListener("click",function(){
                     if(parseInt(likedDOM.innerHTML) === photo.likes){
                         likedDOM.innerHTML = photo.likes + 1;
-                        heartIconDOM.setAttribute("class","fas fa-heart primary")
+                        heartIconDOM.setAttribute("class","fas fa-heart primary");
                         totalLikesDOM.innerHTML = totalLikes += 1;
+                        heartButtonDOM.setAttribute("aria-label","Remove like");
                     }
                     else{
                         likedDOM.innerHTML = photo.likes;
                         heartIconDOM.setAttribute("class","far fa-heart primary");
                         totalLikesDOM.innerHTML = totalLikes -= 1;
+                        heartButtonDOM.setAttribute("aria-label","Add Like")
                     }
                 });
             });

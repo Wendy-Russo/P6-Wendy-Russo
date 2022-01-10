@@ -5,7 +5,7 @@ function photographerFactory(data) {
         if(data.city){
             const { name, portrait,city,country,tagline,price } = data;
             let article = `
-            <article class="home-fig">
+            <figure class="home-fig">
                 <a href="/photographe.html" class="link-photographer">
                     <img src="assets/images/photographers-id-photos/${portrait}" alt="${name}" class="rounded-circle sq200 img-fluid mx-auto">
                     <h2 class"class="text-center secondary">${name}</h2>
@@ -13,7 +13,7 @@ function photographerFactory(data) {
                 <p class="text-center p-city primary">${city}, ${country}</p>
                 <p class="text-center p-slogan">${tagline}</p>
                 <p class="text-center p-price">${price} €/jour</p>
-            </article>`;
+            </figure>`;
             let dom = new DOMParser().parseFromString(article,"text/html");
             return(dom.body.firstChild);
         }
@@ -28,7 +28,7 @@ function photographerFactory(data) {
                     <div class="w-fit mx-auto">
                         <h1 tabindex="0" class="secondary">${name}</h1>
                         <p tabindex="0" class="primary">${city}, ${country}</p>
-                        <p>${tagline}</p>
+                        <p tabindex="0" >${tagline}</p>
                     </div>
                 </div>
                 <div class="col-4">
@@ -84,7 +84,7 @@ function photographerFactory(data) {
             return(dom.body.firstChild);
         }
     }
-    //THE TOTAL LIKES DIV AT THE BOTTOM
+    //CONTACT MODAL (ADD ONCE AND CHANGE ELEMENT)
     function getContactModalDOM(){
         if(data.city){
             let article = `
@@ -93,26 +93,26 @@ function photographerFactory(data) {
                     <div class="modal-content bg-secondary-beige">
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h2 class="modal-title">Modal Heading</h2>
+                            <h2 class="modal-title">Contact Me</h2>
                             <button aria-label="close concact form" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <!-- Modal body -->
                         <div class="modal-body">
                             <form id="contactForm">
                                 <div class="mb-3">
-                                    <label for="fname" class="form-label">Prénom</label>
+                                    <label for="fname" class="form-label" id="fnamelabel">Prénom</label>
                                     <input type="text" class="form-control" id="fname" name="fname">
                                 </input></div>
                                 <div class="mb-3">
-                                    <label for="lname" class="form-label">Nom</label>
+                                    <label for="lname" class="form-label" id="lnamelabel">Nom</label>
                                     <input type="text" class="form-control" id="lname" name="lname">
                                 </input></div>
                                 <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
+                                    <label for="email" class="form-label" id="emaillabel">Email</label>
                                     <input type="email" class="form-control" id="email" name="email">
                                 </input></div>
                                 <div class="mb-3">
-                                    <label for="message" class="form-label">Votre message</label>
+                                    <label for="message" class="form-label" id="messagelabel">Votre message</label>
                                     <textarea rows="5" class="form-control" id="message" name="message"></textarea>
                                 </div>
                                 <button id="submitButton" type="submit" class="btn btn-primary">Submit</button>
@@ -164,14 +164,14 @@ function photographerFactory(data) {
 
             let imgElement;
             if(video){//SWITCHES BETWEEN PHOTO AND VIDEO
-                imgElement = `<video tabindex=0 src="assets/images/${foldername}/${video}" alt="${title}" class="media"></video>`;
+                imgElement = `<video tabindex=0 src="assets/images/${foldername}/${video}" alt="${title}" aria-label="${title}" class="media"></video>`;
             }
             else{
-                imgElement = `<img src="assets/images/${foldername}/${image}" alt="${title}" class="img-fluid media" alt="">`;
+                imgElement = `<img src="assets/images/${foldername}/${image}" alt="${title}"  aria-label="${title}"     class="img-fluid media" alt="">`;
             }
             let article = `
             <figure class="col-4 personal-fig">
-                <a href="#" title="${title}" aria-label="open-image-fullscreen" class="p-0 button-like primary button-img">
+                <a href="#" title="${title}" aria-label="open media named ${title} ful  lscreen" class="p-0 button-like primary button-img">
                     ${imgElement}
                 </a>
                 <figcaption class="row h-fit">
