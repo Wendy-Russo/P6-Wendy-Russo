@@ -32,7 +32,7 @@ function photographerFactory(data) {
                     </div>
                 </div>
                 <div class="col-4">
-                    <button aria-label="open contact form" id="contact_button" class=" btn-primary bgr-primary btn-lg mx-auto" data-bs-toggle="modal" data-bs-target="#contactModal">
+                    <button aria-label="open contact form" id="contact_button" class=" bgr-primary btn-lg mx-auto" data-bs-toggle="modal" data-bs-target="#contactModal">
                         Contactez-moi
                     </button>
                 </div>
@@ -87,13 +87,14 @@ function photographerFactory(data) {
     //CONTACT MODAL (ADD ONCE AND CHANGE ELEMENT)
     function getContactModalDOM(){
         if(data.city){
+            const {name } = data;
             let article = `
             <section class="modal fade" id="contactModal" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content bg-secondary-beige">
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h2 class="modal-title">Contact Me</h2>
+                            <h2 class="modal-title">Contactez-moi ${name}</h2>
                             <button aria-label="close concact form" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
                         <!-- Modal body -->

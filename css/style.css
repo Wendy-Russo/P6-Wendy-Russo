@@ -87,7 +87,7 @@ h1 {
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
   color: black;
 }
 
@@ -126,6 +126,7 @@ img {
 
 .bgr-primary {
   background-color: #901c1c;
+  color: white;
 }
 
 .white {
@@ -300,7 +301,9 @@ figcaption p{
   border: 0;
   background-color: white;
 }
-
+#contactModal{
+  background-color: white;
+}
 #modal-lb {
   background-color: white;
 }
@@ -314,6 +317,7 @@ figcaption p{
 
 .modal-content {
   border: 0;
+  background-color: #db8876 !important;
   flex-direction: unset;
   flex-wrap: wrap;
   justify-content: center;
@@ -362,4 +366,13 @@ figcaption p{
   position: fixed;
   top: 2rem;
   right: 3rem;
+}
+
+.modal-body label{
+  color: black;
+  font-size: 1.2rem;
+  font-weight:400;
+}
+#submitButton{
+  background-color: #901c1c;
 }
